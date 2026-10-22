@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 140" role="img" aria-labelledby="etS3">
+  <title id="etS3">Exchange Tracker</title>
+  <defs>
+    <linearGradient id="etS3-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F1D9A0"/>
+      <stop offset="0.45" stop-color="#C9A04E"/>
+      <stop offset="1" stop-color="#E8C77A"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="140" rx="20" fill="#0C0E12"/>
+  <g transform="translate(18 22)" fill="url(#etS3-gold)">
+    <path d="M6 88V68A6 6 0 0 1 18 68V88Z"/>
+    <path d="M22 88V48L28 40L34 48V88Z"/>
+    <path d="M38 88V22L46 8L54 22V88Z"/>
+    <path d="M58 88V38L64 30L70 38V88Z"/>
+    <path d="M74 88V60A6 6 0 0 1 86 60V88Z"/>
+  </g>
+  <text x="124" y="72" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="32" font-weight="600" letter-spacing="-0.6" fill="#F3E5C8">Exchange</text>
+  <text x="125" y="104" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" letter-spacing="7" fill="#D4A853">TRACKER</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 30 1800 1130" role="img" aria-labelledby="etX">
+  <title id="etX">EXC · Exchange Tracker</title>
+  <defs>
+    <clipPath id="etX-x"><rect x="186" y="890" width="149" height="134"/></clipPath>
+  </defs>
+  <g fill="#154878">
+    <path d="M183 570C235 594 262 600 324 605L324 796C270 800 130 720 98 667Z"/>
+    <path d="M354 547L486 424L566 500L566 769C505 800 430 806 356 801C352 720 352 600 354 547Z"/>
+    <path d="M595 550C690 643 750 648 803 658L803 797C735 800 650 800 595 800Z"/>
+    <path d="M836 688C852 690 860 676 870 664L1038 470L1041 797L836 797Z"/>
+    <path d="M1072 263C1088 253 1100 246 1112 235C1130 219 1145 203 1160 185L1277 48L1278 797L1072 797Z"/>
+    <path d="M1309 579C1420 622 1530 610 1605 492C1680 520 1740 548 1781 570C1700 755 1480 845 1309 792Z"/>
+  </g>
+  <g fill="none" stroke="#154878" stroke-width="22">
+    <path d="M172 901H58A35 35 0 0 0 23 936V978A35 35 0 0 0 58 1013H172M23 957H150"/>
+    <path d="M168 878L353 1036M353 878L168 1036" clip-path="url(#etX-x)"/>
+    <path d="M499 940V936A35 35 0 0 0 464 901H396A35 35 0 0 0 361 936V978A35 35 0 0 0 396 1013H464A35 35 0 0 0 499 978V972"/>
+  </g>
+  <text x="14" y="1128" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="66" font-weight="600" letter-spacing="1" fill="#154878">Exchange Tracker</text>
+</svg>

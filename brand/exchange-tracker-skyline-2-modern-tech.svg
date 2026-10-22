@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 415 110" role="img" aria-labelledby="etS2">
+  <title id="etS2">Exchange Tracker</title>
+  <g transform="translate(6 5)">
+    <g fill="#0B1626">
+      <path d="M6 88V68A6 6 0 0 1 18 68V88Z"/>
+      <path d="M22 88V48L28 40L34 48V88Z"/>
+      <path d="M58 88V38L64 30L70 38V88Z"/>
+      <path d="M74 88V60A6 6 0 0 1 86 60V88Z"/>
+    </g>
+    <path d="M38 88V22L46 8L54 22V88Z" fill="#22D3EE"/>
+  </g>
+  <text x="110" y="67" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="36" letter-spacing="-0.9" fill="#0B1626"><tspan font-weight="700">Exchange</tspan><tspan font-weight="500" fill="#0891B2"> Tracker</tspan></text>
+</svg>

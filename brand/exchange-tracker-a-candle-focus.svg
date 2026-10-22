@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" role="img" aria-labelledby="etA">
+  <title id="etA">Exchange Tracker</title>
+  <g transform="translate(10 10)">
+    <rect width="100" height="100" rx="24" fill="#0B1220"/>
+    <g stroke-linecap="round">
+      <line x1="30" y1="50" x2="30" y2="80" stroke="#3A4A66" stroke-width="3"/>
+      <rect x="25" y="56" width="10" height="17" rx="2.5" fill="#3A4A66"/>
+      <line x1="49" y1="36" x2="49" y2="70" stroke="#5B6E8F" stroke-width="3"/>
+      <rect x="44" y="42" width="10" height="21" rx="2.5" fill="#5B6E8F"/>
+      <line x1="70" y1="22" x2="70" y2="58" stroke="#C6F91F" stroke-width="3"/>
+      <rect x="65" y="28" width="10" height="24" rx="2.5" fill="#C6F91F"/>
+    </g>
+    <path d="M58 23V16h7M75 16h7v7M82 57v7h-7M65 64h-7v-7" fill="none" stroke="#C6F91F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="134" y="73" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="40" letter-spacing="-1" fill="#0B1220"><tspan font-weight="700">Exchange</tspan><tspan font-weight="400" fill="#3A4A66"> Tracker</tspan></text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 1674 684" role="img" aria-labelledby="exchange-tracker-exc2-sm-t">
+  <title id="exchange-tracker-exc2-sm-t">EXC</title>
+  <defs>
+    <clipPath id="exc2s-xbox"><rect x="510" y="0" width="500" height="660"/></clipPath>
+    <mask id="exc2s-xgap" maskUnits="userSpaceOnUse" x="500" y="-80" width="520" height="820">
+      <rect x="500" y="-80" width="520" height="820" fill="#fff"/>
+      <path d="M949 -72.4L571 732.4" stroke="#000" stroke-width="216"/>
+    </mask>
+    <mask id="exc2s-cgap" maskUnits="userSpaceOnUse" x="1040" y="-10" width="620" height="680">
+      <rect x="1040" y="-10" width="620" height="680" fill="#fff"/>
+      <path d="M1040 406L1660 220" stroke="#000" stroke-width="22"/>
+    </mask>
+    <clipPath id="exc2s-ctop"><path d="M1040 406L1660 220V-10H1040Z"/></clipPath>
+    <clipPath id="exc2s-cbot"><path d="M1040 406L1660 220V680H1040Z"/></clipPath>
+  </defs>
+  <path d="M120 0H470V150H150V255H420V405H150V488H0V120A120 120 0 0 1 120 0Z" fill="#05080A"/>
+  <path d="M0 510H470V660H120A120 120 0 0 1 0 540Z" fill="#6F9A00"/>
+  <g clip-path="url(#exc2s-xbox)">
+    <path d="M571 -72.4L949 732.4" stroke="#05080A" stroke-width="172" mask="url(#exc2s-xgap)"/>
+    <path d="M949 -72.4L571 732.4" stroke="#6F9A00" stroke-width="172"/>
+  </g>
+  <g mask="url(#exc2s-cgap)">
+    <path d="M1642.8 117.9A330 330 0 1 0 1642.8 542.1L1527.9 445.7A180 180 0 1 1 1527.9 214.3Z" fill="#05080A" clip-path="url(#exc2s-ctop)"/>
+    <path d="M1642.8 117.9A330 330 0 1 0 1642.8 542.1L1527.9 445.7A180 180 0 1 1 1527.9 214.3Z" fill="#6F9A00" clip-path="url(#exc2s-cbot)"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 250" role="img" aria-labelledby="etE">
+  <title id="etE">Exchange Tracker</title>
+  <defs>
+    <mask id="etE-gap" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="160">
+      <rect width="300" height="160" fill="#fff"/>
+      <line x1="162" y1="88" x2="214" y2="36" stroke="#000" stroke-width="24" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <path d="M208 88L179 137.2H121L92 88L121 38.8H179Z" fill="none" stroke="#1C1F26" stroke-width="7" stroke-linejoin="round" mask="url(#etE-gap)"/>
+  <polyline points="112,116 130,98 146,110 162,88 209,41" fill="none" stroke="#FF6B2C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M195 36H214V55" fill="none" stroke="#FF6B2C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="152" y="192" text-anchor="middle" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="3" fill="#1C1F26">EXCHANGE</text>
+  <text x="152" y="226" text-anchor="middle" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="500" letter-spacing="3" fill="#FF6B2C">TRACKER</text>
+</svg>

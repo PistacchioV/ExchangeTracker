@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-labelledby="etF">
+  <title id="etF">Exchange Tracker</title>
+  <g transform="translate(10 10)">
+    <path d="M16.17 37.69A36 36 0 0 1 83.83 37.69" fill="none" stroke="#2F7BFF" stroke-width="6"/>
+    <polygon points="86.57,45.21 90.41,35.30 77.25,40.08" fill="#2F7BFF"/>
+    <path d="M83.83 62.31A36 36 0 0 1 16.17 62.31" fill="none" stroke="#2F7BFF" stroke-width="6"/>
+    <polygon points="13.43,54.79 9.59,64.70 22.75,59.92" fill="#2F7BFF"/>
+    <line x1="50" y1="28" x2="50" y2="72" stroke="#071A33" stroke-width="3" stroke-linecap="round"/>
+    <rect x="42" y="37" width="16" height="26" rx="3" fill="#071A33"/>
+  </g>
+  <text x="124" y="55" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="-1" fill="#071A33">Exchange</text>
+  <text x="124" y="91" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="400" letter-spacing="-1" fill="#2F7BFF">Tracker</text>
+</svg>

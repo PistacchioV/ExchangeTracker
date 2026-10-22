@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 120" role="img" aria-labelledby="etD">
+  <title id="etD">Exchange Tracker</title>
+  <g transform="translate(10 10)">
+    <rect x="14" y="18" width="62" height="14" rx="7" fill="#0A1A33"/>
+    <rect x="14" y="43" width="40" height="14" rx="7" fill="#00D68F"/>
+    <rect x="14" y="68" width="62" height="14" rx="7" fill="#0A1A33"/>
+    <circle cx="70" cy="50" r="7" fill="#00D68F"/>
+    <circle cx="70" cy="50" r="13" fill="none" stroke="#00D68F" stroke-width="2.5" stroke-opacity="0.45"/>
+  </g>
+  <text x="112" y="73" font-family="Inter, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="600" letter-spacing="-1.4" fill="#0A1A33">exchange<tspan fill="#00A372">tracker</tspan></text>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 1674 892" role="img" aria-labelledby="exchange-tracker-exc2-full-dark-t">
+  <title id="exchange-tracker-exc2-full-dark-t">EXC · Exchange Tracker</title>
+  <defs>
+    <clipPath id="exc2darkf-xbox"><rect x="510" y="0" width="500" height="660"/></clipPath>
+    <mask id="exc2darkf-xgap" maskUnits="userSpaceOnUse" x="500" y="-80" width="520" height="820">
+      <rect x="500" y="-80" width="520" height="820" fill="#fff"/>
+      <path d="M949 -72.4L571 732.4" stroke="#000" stroke-width="216"/>
+    </mask>
+    <mask id="exc2darkf-cgap" maskUnits="userSpaceOnUse" x="1040" y="-10" width="620" height="680">
+      <rect x="1040" y="-10" width="620" height="680" fill="#fff"/>
+      <path d="M1040 406L1660 220" stroke="#000" stroke-width="22"/>
+    </mask>
+    <clipPath id="exc2darkf-ctop"><path d="M1040 406L1660 220V-10H1040Z"/></clipPath>
+    <clipPath id="exc2darkf-cbot"><path d="M1040 406L1660 220V680H1040Z"/></clipPath>
+  </defs>
+  <path d="M120 0H470V150H150V255H420V405H150V488H0V120A120 120 0 0 1 120 0Z" fill="#FFFFFF"/>
+  <path d="M0 510H470V660H120A120 120 0 0 1 0 540Z" fill="#C6F91F"/>
+  <g clip-path="url(#exc2darkf-xbox)">
+    <path d="M571 -72.4L949 732.4" stroke="#FFFFFF" stroke-width="172" mask="url(#exc2darkf-xgap)"/>
+    <path d="M949 -72.4L571 732.4" stroke="#C6F91F" stroke-width="172"/>
+  </g>
+  <g mask="url(#exc2darkf-cgap)">
+    <path d="M1642.8 117.9A330 330 0 1 0 1642.8 542.1L1527.9 445.7A180 180 0 1 1 1527.9 214.3Z" fill="#FFFFFF" clip-path="url(#exc2darkf-ctop)"/>
+    <path d="M1642.8 117.9A330 330 0 1 0 1642.8 542.1L1527.9 445.7A180 180 0 1 1 1527.9 214.3Z" fill="#C6F91F" clip-path="url(#exc2darkf-cbot)"/>
+  </g>
+  <defs><clipPath id="exc2darkf-band"><rect x="-20" y="0" width="1460" height="100"/></clipPath></defs>
+  <g transform="translate(0 745) scale(1.2)" fill="none" stroke-width="17" clip-path="url(#exc2darkf-band)">
+    <g stroke="#C6F91F"><path transform="translate(0 0)" d="M69.5 8.5H8.5V91.5H69.5M8.5 50H63"/><path transform="translate(90 0)" d="M2 0L76 100M76 0L2 100"/><path transform="translate(180 0)" d="M69.5 36V24.5A16 16 0 0 0 53.5 8.5H24.5A16 16 0 0 0 8.5 24.5V75.5A16 16 0 0 0 24.5 91.5H53.5A16 16 0 0 0 69.5 75.5V64"/><path transform="translate(270 0)" d="M8.5 0V100M69.5 0V100M8.5 50H69.5"/><path transform="translate(360 0)" d="M2 100L32 8.5H46L76 100M11 72H67"/><path transform="translate(450 0)" d="M8.5 100V8.5L69.5 91.5V0"/><path transform="translate(540 0)" d="M69.5 36V24.5A16 16 0 0 0 53.5 8.5H24.5A16 16 0 0 0 8.5 24.5V75.5A16 16 0 0 0 24.5 91.5H53.5A16 16 0 0 0 69.5 75.5V54H42"/><path transform="translate(630 0)" d="M69.5 8.5H8.5V91.5H69.5M8.5 50H63"/></g>
+    <g stroke="#FFFFFF"><path transform="translate(752 0)" d="M0 8.5H78M39 8.5V100"/><path transform="translate(842 0)" d="M8.5 100V8.5H53.5A16 16 0 0 1 69.5 24.5V36A16 16 0 0 1 53.5 52H8.5M40 52L72 100"/><path transform="translate(932 0)" d="M2 100L32 8.5H46L76 100M11 72H67"/><path transform="translate(1022 0)" d="M69.5 36V24.5A16 16 0 0 0 53.5 8.5H24.5A16 16 0 0 0 8.5 24.5V75.5A16 16 0 0 0 24.5 91.5H53.5A16 16 0 0 0 69.5 75.5V64"/><path transform="translate(1112 0)" d="M8.5 0V100M8.5 58L74 2M34 37L74 100"/><path transform="translate(1202 0)" d="M69.5 8.5H8.5V91.5H69.5M8.5 50H63"/><path transform="translate(1292 0)" d="M8.5 100V8.5H53.5A16 16 0 0 1 69.5 24.5V36A16 16 0 0 1 53.5 52H8.5M40 52L72 100"/></g>
+  </g>
+</svg>
