@@ -547,8 +547,8 @@
       '<label class="fld"><span>Equipe</span><input class="input" name="team" maxlength="80" list="wsTeams" value="' + esc(p ? p.team : '') + '"/></label></div>' +
       '<datalist id="wsTeams">' + (opts.teams || []).map(function (t) { return '<option value="' + esc(t) + '">'; }).join('') + '</datalist>';
     var left = (p ? '<button type="button" class="btn btn-ghost btn-sm" data-refresh title="Buscar o SID de novo no cadastro interno">' + icon('search', 13) + ' Atualizar do cadastro</button>' : '') +
-      (p && !p.is_me ? '<button type="button" class="btn btn-ghost btn-sm" data-active>' + (p.active === false ? 'Reativar' : 'Desativar') + '</button>' +
-      '<button type="button" class="btn btn-danger btn-sm" data-del>' + icon('trash', 13) + ' Excluir</button>' : '');
+      (p && !p.is_me ? '<button type="button" class="btn btn-ghost btn-sm" data-active>' + (p.active === false ? 'Reativar' : 'Desativar') + '</button>' : '') +
+      (p ? '<button type="button" class="btn btn-danger btn-sm" data-del>' + icon('trash', 13) + ' Excluir</button>' : '');
     var m = modal({
       title: p ? p.name : 'Adicionar ao team', sub: p ? p.sid : 'Entra direto — sem convite.', body: body, left: left, ok: p ? 'Salvar' : 'Adicionar',
       onOk: function (x) {
@@ -615,7 +615,10 @@
 
   // exclui do Team: sai dos times e as tasks em aberto ficam sem responsável
   WS.deletePerson = function (p) {
-    return WS.confirm('Excluir usuário', 'Excluir ' + p.name + ' (' + p.sid + ') do team? Ele sai do time das initiatives e as tasks em aberto dele ficam sem responsável. Quem é Lead precisa ser trocado antes.', 'Excluir').then(function (sim) {
+    var texto = p.is_me
+      ? 'Excluir você (' + p.sid + ') do team? Você sai do time das initiatives, suas tasks em aberto ficam sem responsável e você deixa de aparecer para Lead e tarefas. O perfil continua em Settings; para voltar, adicione o seu SID de novo.'
+      : 'Excluir ' + p.name + ' (' + p.sid + ') do team? Ele sai do time das initiatives e as tasks em aberto dele ficam sem responsável. Quem é Lead precisa ser trocado antes.';
+    return WS.confirm('Excluir usuário', texto, 'Excluir').then(function (sim) {
       if (!sim) return null;
       return api('DELETE', '/api/team/' + encodeURIComponent(p.sid)).then(function (d) {
         META = null; toast(p.name + ' foi excluído do team.', true); WS.changed('team'); return d;

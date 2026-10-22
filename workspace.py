@@ -242,7 +242,9 @@ def me():
 
 
 def team(apenas_ativos=False):
-    pessoas = settings()["team"]
+    """As pessoas do Team. Quem usa a ferramenta e se excluiu fica gravado
+    com `hidden` (o perfil continua valendo em Settings), mas não aparece."""
+    pessoas = [p for p in settings()["team"] if not p.get("hidden")]
     if apenas_ativos:
         pessoas = [p for p in pessoas if p.get("active", True)]
     return sorted(pessoas, key=lambda p: p["name"].lower())
@@ -264,7 +266,7 @@ def eligible():
 
 
 def directory():
-    return {p["sid"]: {"name": p["name"], "position": p.get("role", "")} for p in team()}
+    return {p["sid"]: {"name": p["name"], "position": p.get("role", "")} for p in settings()["team"]}
 
 
 def _pessoa(data, atual=None):
@@ -313,6 +315,12 @@ def add_person(data):
     campos = _pessoa(data)
 
     def go(doc):
+        for p in doc["team"]:
+            if p["sid"] == sid and p.get("hidden"):
+                # você se excluiu e voltou: o perfil reaparece no Team
+                p.pop("hidden", None)
+                p.update(campos)
+                return p
         if any(p["sid"] == sid for p in doc["team"]):
             raise WorkspaceError("person_exists", "%s já está no time." % sid)
         if len(doc["team"]) >= MAX_TEAM:
@@ -353,18 +361,22 @@ def refresh_person(sid):
 
 
 def check_delete(sid):
-    """Pode excluir? Você mesmo não (o perfil é o SID da máquina)."""
     doc = settings()
-    if sid == doc.get("me"):
-        raise WorkspaceError("me_delete", "Você não pode excluir o seu próprio usuário.")
-    if not any(p["sid"] == sid for p in doc["team"]):
+    if not any(p["sid"] == sid and not p.get("hidden") for p in doc["team"]):
         raise NotFound("person_not_found", "Pessoa não encontrada.")
 
 
 def delete_person(sid):
-    """Tira a pessoa do Team (as iniciativas já foram liberadas antes)."""
+    """Tira a pessoa do Team (as iniciativas já foram liberadas antes). Você
+    mesmo sai do Team, mas o perfil fica gravado escondido: ele é quem assina
+    a atividade e o "Só as minhas"; adicionar o SID de novo o traz de volta."""
     def go(doc):
-        doc["team"] = [p for p in doc["team"] if p["sid"] != sid]
+        if sid == doc.get("me"):
+            for p in doc["team"]:
+                if p["sid"] == sid:
+                    p["hidden"] = True
+        else:
+            doc["team"] = [p for p in doc["team"] if p["sid"] != sid]
         return True
     return SETTINGS.mutate(go)
 

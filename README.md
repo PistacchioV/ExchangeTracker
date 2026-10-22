@@ -71,7 +71,8 @@ Regras das Initiatives:
   **Atualizar do cadastro** força a busca.
 - **Excluir usuário** (lixeira no cartão ou no modal): a pessoa sai do time das initiatives e as
   tasks em aberto dela ficam sem responsável; as concluídas guardam o nome. Quem é Lead precisa
-  ser trocado antes, e o próprio usuário não se exclui.
+  ser trocado antes. Você também pode se excluir: sai do Team, mas o perfil continua em Settings
+  (é ele quem assina a atividade); adicionar o seu SID de novo traz você de volta.
 - **Fotos:** `static/img/users/<sid>.jpg` (fora do git).
 - **Settings:** perfil, avisos do sino, tema (claro, escuro, auto) e exportação das tasks em CSV.
 
