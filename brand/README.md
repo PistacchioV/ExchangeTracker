@@ -8,7 +8,8 @@ As letras E, X e C com o skyline de barras na parte de baixo, na paleta do app
 | Arquivo | Uso |
 |---|---|
 | `exchange-tracker-exc3-full.svg` / `-full-dark.svg` | logo completo (símbolo + EXCHANGE TRACKER), fundo claro / escuro |
-| `exchange-tracker-exc3-sm.svg` / `-sm-dark.svg` | só o símbolo — é o da sidebar (`static/img/brand/`); o sm black, num quadro quadrado, é o ícone da aba (`static/img/favicon.svg` e `static/favicon.ico`) |
+| `exchange-tracker-exc3-sm.svg` / `-sm-dark.svg` | só o símbolo — é o da sidebar (`static/img/brand/`) |
+| `exchange-tracker-exc3-favicon.svg` | o sm black estreitado para caber maior no quadrado — ícone da aba (`static/img/favicon.svg` e `static/favicon.ico`) |
 | `exchange-tracker-exc3-notify.svg` | ícone de app — vira `static/img/logo.svg` e `logo-512.png` (atalho, celular) |
 | `paletas/` | o logo completo nas 9 paletas avaliadas, claro e escuro; `paletas/preview.html` mostra todas |
 

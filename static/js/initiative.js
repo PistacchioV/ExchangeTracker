@@ -18,7 +18,7 @@
   function render() {
     var h = WS.hue(P.color);
     root.style.setProperty('--h', h);
-    document.title = P.name + ' · Exchange Tracker';
+    document.title = 'Exchange Tracker · ' + P.name;
     $('#dIcon').innerHTML = icon(P.icon, 22);
     $('#dName').textContent = P.name;
     $('#dDesc').textContent = P.description || 'Sem descrição.';

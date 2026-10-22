@@ -140,6 +140,9 @@ for suf, (ink, acc) in PAL.items():
     p = "e3" + suf.replace("-", "")
     svg(f"exchange-tracker-exc3-full{suf}.svg", "-14 -10 1640 884", symbol(p + "f", ink, acc, "light" if suf == "" else "dark") + "\n  " + wordmark(p + "f", ink, acc, TXT[suf], "light" if suf == "" else "dark"))
     svg(f"exchange-tracker-exc3-sm{suf}.svg", "-14 -10 1640 676", symbol(p + "s", ink, acc, "light" if suf == "" else "dark"), "EXC")
+# ícone da aba: o sm black estreitado (0,72 na horizontal) para caber maior no quadrado
+svg("exchange-tracker-exc3-favicon.svg", "-10 -260 1180 1180",
+    '<g transform="scale(0.72 1)">' + symbol("e3i", "#05080A", "#C6F91F", "light") + "</g>", "EXC")
 svg("exchange-tracker-exc3-notify.svg", "0 0 1024 1024",
     '<rect width="1024" height="1024" rx="224" fill="#05080A"/>\n  <g transform="translate(70 333) scale(0.55)">' +
     symbol("e3n", "#FFFFFF", "#C6F91F", "dark") + "</g>", "EXC")
