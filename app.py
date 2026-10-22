@@ -1,5 +1,5 @@
 """
-app.py — servidor Flask do EDG Tracker.
+app.py — servidor Flask do Exchange Tracker.
 
   e-Financeira Recon
     GET  /                         pagina do batimento

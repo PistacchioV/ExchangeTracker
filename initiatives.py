@@ -1,5 +1,5 @@
 """
-initiatives.py — Initiatives e Tasks do EDG Tracker: status, categorias,
+initiatives.py — Initiatives e Tasks do Exchange Tracker: status, categorias,
 prioridades, o time da
 iniciativa, o responsável saído dos envolvidos, o marco como EVENTO, o
 burn-up e a atividade estruturada.

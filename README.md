@@ -1,4 +1,4 @@
-# EDG Tracker
+# Exchange Tracker
 
 Ferramenta interna (Python/Flask, HTML, JS), navegável pela sidebar:
 
@@ -67,7 +67,7 @@ Regras das Initiatives:
 - **Team** — adicionar é direto, sem convite: o **SID** busca nome, e-mail, cargo e equipe no
   phonebook interno pela `awmpy` (`get_phonebook_data`, instalada do Artifactory pelo
   `iniciar.bat`). Se ela não responder, tenta o Active Directory e o Outlook. Quem usa a
-  ferramenta é a pessoa do SID da máquina; enquanto o nome for só o SID, o EDG busca de novo, e
+  ferramenta é a pessoa do SID da máquina; enquanto o nome for só o SID, o Exchange Tracker busca de novo, e
   **Atualizar do cadastro** força a busca.
 - **Excluir usuário** (lixeira no cartão ou no modal): a pessoa sai do time das initiatives e as
   tasks em aberto dela ficam sem responsável; as concluídas guardam o nome. Quem é Lead precisa

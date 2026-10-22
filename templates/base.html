@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>{% block titulo %}EDG Tracker{% endblock %}</title>
-<meta name="description" content="{% block descricao %}EDG Tracker: batimento e-Financeira e acompanhamento de fatos relevantes.{% endblock %}"/>
+<title>{% block titulo %}Exchange Tracker{% endblock %}</title>
+<meta name="description" content="{% block descricao %}Exchange Tracker: batimento e-Financeira e acompanhamento de fatos relevantes.{% endblock %}"/>
 <meta name="theme-color" content="#05080A"/>
 
 <!-- tema salvo antes de pintar, para nao piscar -->
@@ -41,10 +41,10 @@
 <body class="antialiased">
 
 <!-- ------------------------------------------------------------- sidebar -->
-<aside class="sidebar" id="sidebar" aria-label="Módulos do EDG Tracker">
+<aside class="sidebar" id="sidebar" aria-label="Módulos do Exchange Tracker">
   <a class="sb-brand" href="{{ url_for('index') }}">
     <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" class="sb-brand-ico"/>
-    <span class="sb-brand-txt">EDG <span class="t-accent">Tracker</span></span>
+    <span class="sb-brand-txt">Exchange <span class="t-accent">Tracker</span></span>
   </a>
 
   <div class="sb-scroll">
@@ -115,7 +115,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
         <div class="flex items-center gap-2.5 animate-blur-in stagger-1">
-          <span class="text-sm tracking-tight font-medium t-fg">{% block topo_titulo %}EDG Tracker{% endblock %}</span>
+          <span class="text-sm tracking-tight font-medium t-fg">{% block topo_titulo %}Exchange Tracker{% endblock %}</span>
         </div>
       </div>
       <div class="flex items-center gap-2 lg:gap-3">
@@ -166,7 +166,7 @@
   </main>
 
   <footer class="shell relative z-10 px-4 md:px-5 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs t-faint">
-    <div class="flex items-center gap-2"><img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" class="w-4 h-4"/>EDG Tracker</div>
+    <div class="flex items-center gap-2"><img src="{{ url_for('static', filename='img/logo.svg') }}" alt="" class="w-4 h-4"/>Exchange Tracker</div>
     <div>{% block rodape %}Processamento em memória · nada é gravado em disco{% endblock %}</div>
   </footer>
 </div>

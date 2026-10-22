@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block titulo %}{{ projeto.name }} · EDG Tracker{% endblock %}
+{% block titulo %}{{ projeto.name }} · Exchange Tracker{% endblock %}
 {% block descricao %}Initiative {{ projeto.name }}: visão geral, marcos, burn-up e tarefas.{% endblock %}
 {% block topo_titulo %}<a href="{{ url_for('ws.initiatives_page') }}" class="t-muted hover:opacity-80">Initiatives</a> <span class="t-faint mx-1">/</span> <span class="t-accent">{{ projeto.name }}</span>{% endblock %}
 {% block rodape %}Workspace salvo em data/workspace/ · fora do git{% endblock %}

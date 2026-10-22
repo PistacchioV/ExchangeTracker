@@ -1,4 +1,4 @@
-/* shell.js — casca comum do EDG Tracker: tema, sidebar e toast.
+/* shell.js — casca comum do Exchange Tracker: tema, sidebar e toast.
    Exposto em window.EDG para as telas. Busca, criar e sino: workspace.js. */
 (function () {
   'use strict';

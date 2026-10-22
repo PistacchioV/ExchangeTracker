@@ -353,7 +353,7 @@ def api_settings_reset():
 def api_export_tasks():
     tarefas, _ = ini.all_tasks()
     return Response(ws.tasks_csv(tarefas), mimetype="text/csv",
-                    headers={"Content-Disposition": "attachment; filename=edg_tasks.csv"})
+                    headers={"Content-Disposition": "attachment; filename=exchange_tracker_tasks.csv"})
 
 
 # ------------------------------------------------------------------- casca

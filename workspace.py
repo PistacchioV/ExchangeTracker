@@ -1,5 +1,5 @@
 """
-workspace.py — o armazém do Workspace do EDG Tracker (Initiatives, Tasks,
+workspace.py — o armazém do Workspace do Exchange Tracker (Initiatives, Tasks,
 Calendar e Settings) e as preferências de quem usa a ferramenta.
 
 Cada área é UM documento JSON em data/workspace/ (fora do git), lido e gravado
