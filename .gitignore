@@ -4,3 +4,7 @@ venv/
 .venv/
 data/
 .DS_Store
+
+# fotos do Team (static/img/users/<sid>.jpg) ficam fora do git
+static/img/users/*
+!static/img/users/.gitkeep

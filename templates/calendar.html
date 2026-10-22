@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block titulo %}Calendar · EDG Tracker{% endblock %}
+{% block descricao %}Eventos, marcos e prazos das initiatives num calendário só.{% endblock %}
+{% block topo_titulo %}Work<span class="t-accent">space</span>{% endblock %}
+{% block rodape %}Marcos e prazos vêm das initiatives · eventos avulsos em data/workspace/{% endblock %}
+
+{% block conteudo %}
+    <section class="w-full border-b b-line pt-14 md:pt-16 pb-10 px-4 md:px-5 relative overflow-hidden">
+      <div class="glow-top"></div>
+      <div class="relative z-10 ws-head">
+        <div>
+          <div class="hero-anim-item pill mb-5"><span class="pulse-dot"></span>Workspace</div>
+          <h1 class="hero-anim-item text-4xl md:text-6xl t-fg font-light tracking-tighter first-letter:uppercase" id="calTitle">Calendar</h1>
+          <p class="hero-anim-item t-muted text-base mt-3" id="calSub">&nbsp;</p>
+        </div>
+        <div class="ws-actions hero-anim-item">
+          <button type="button" class="btn btn-ghost btn-sm" id="calToday">Hoje</button>
+          <button type="button" class="icon-btn" id="calPrev" aria-label="Anterior"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button type="button" class="icon-btn" id="calNext" aria-label="Próximo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+          <div class="seg" id="calView"><button data-view="month" class="active">Mês</button><button data-view="week">Semana</button></div>
+          <button type="button" class="btn btn-primary btn-sm" id="calNew"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Novo evento</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full border-b b-line ws-section">
+      <div id="calErr" class="ws-err mb-4" hidden></div>
+      <div class="flex flex-wrap items-center gap-4 mb-4 text-[11px] t-faint">
+        <span class="flex items-center gap-1.5"><span class="cal-chip" style="--h:var(--hue-lime)"><i></i>Evento</span></span>
+        <span class="flex items-center gap-1.5"><span class="cal-chip" style="--h:var(--hue-blue)"><i></i>Marco</span>na cor da initiative</span>
+        <span class="flex items-center gap-1.5"><span class="cal-chip is-task" style="--h:var(--hue-blue)"><i></i>Task</span>prazo em aberto</span>
+        <span class="flex items-center gap-1.5"><span class="cal-chip is-project" style="--h:var(--hue-blue)"><i></i>Data-alvo</span></span>
+      </div>
+      <div class="cal-wrap">
+        <div id="calGrid"></div>
+        <aside>
+          <div class="ws-box">
+            <div class="ws-box-head">
+              <div><div class="ws-title" id="agTitle">Hoje</div><div class="ws-sub" id="agSub"></div></div>
+              <button type="button" class="btn btn-ghost btn-sm" id="agAdd"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Evento</button>
+            </div>
+            <div id="agList"></div>
+          </div>
+          <div class="ws-box">
+            <div class="ws-box-head"><div class="ws-title">Vence <span id="dueTitle">hoje</span></div><span class="sb-badge" style="margin-left:0" id="dueN">0</span></div>
+            <div id="dueList"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+{% endblock %}

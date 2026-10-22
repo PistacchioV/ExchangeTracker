@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block titulo %}Team · EDG Tracker{% endblock %}
+{% block descricao %}Quem participa das initiatives: adicionado pelo SID, com os dados do cadastro interno.{% endblock %}
+{% block topo_titulo %}Work<span class="t-accent">space</span>{% endblock %}
+{% block rodape %}Fotos em static/img/users/&lt;sid&gt;.jpg · fora do git{% endblock %}
+
+{% block conteudo %}
+    <section class="w-full border-b b-line pt-14 md:pt-16 pb-10 px-4 md:px-5 relative overflow-hidden">
+      <div class="glow-top"></div>
+      <div class="relative z-10 ws-head">
+        <div>
+          <div class="hero-anim-item pill mb-5"><span class="pulse-dot"></span>Workspace</div>
+          <h1 class="hero-anim-item text-4xl md:text-6xl t-fg font-light tracking-tighter">Team</h1>
+          <p class="hero-anim-item t-muted text-base mt-3" id="tmSub">&nbsp;</p>
+        </div>
+        <div class="ws-actions hero-anim-item">
+          <div class="seg" id="tmFilter"><button data-f="" class="active">Todos</button><button data-f="on">Ativos</button><button data-f="off">Inativos</button></div>
+          <button type="button" class="btn btn-primary btn-sm" id="tmAdd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Adicionar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full border-b b-line ws-section">
+      <div class="ws-kpis mb-5">
+        <div class="kpi is-accent"><div class="text-[11px] t-faint mb-3">Pessoas ativas</div><div class="kpi-val t-accent" id="kPeople">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Equipes</div><div class="kpi-val t-fg" id="kTeams">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Lideram initiatives</div><div class="kpi-val t-fg" id="kLeads">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Tasks em aberto</div><div class="kpi-val t-fg" id="kOpen">—</div></div>
+      </div>
+      <div class="lookup mb-5" id="tmSource"></div>
+      <div id="tmErr" class="ws-err mb-4" hidden></div>
+      <div id="tmGroups"></div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/team.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block titulo %}Initiatives · EDG Tracker{% endblock %}
+{% block descricao %}Initiatives do time: status, categoria, Lead, marcos e o andamento das tarefas.{% endblock %}
+{% block topo_titulo %}Work<span class="t-accent">space</span>{% endblock %}
+{% block rodape %}Workspace salvo em data/workspace/ · fora do git{% endblock %}
+
+{% block conteudo %}
+    <section class="w-full border-b b-line pt-14 md:pt-16 pb-10 px-4 md:px-5 relative overflow-hidden">
+      <div class="glow-top"></div>
+      <div class="relative z-10 ws-head">
+        <div>
+          <div class="hero-anim-item pill mb-5"><span class="pulse-dot"></span>Workspace</div>
+          <h1 class="hero-anim-item text-4xl md:text-6xl t-fg font-light tracking-tighter">Initiatives</h1>
+          <p class="hero-anim-item t-muted text-base mt-3" id="iniSub">&nbsp;</p>
+        </div>
+        <div class="ws-actions hero-anim-item">
+          <div class="tb-wrap">
+            <button type="button" class="btn-chip" id="fCat" aria-haspopup="menu" aria-expanded="false"></button>
+            <div class="menu is-left" id="fCatMenu" hidden></div>
+          </div>
+          <div class="seg" id="fStatus">
+            <button data-status="" class="active">All</button>
+            <button data-status="On going">On going</button>
+            <button data-status="On hold">On hold</button>
+            <button data-status="Concluded">Concluded</button>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="iniNew"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nova initiative</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full border-b b-line ws-section">
+      <div class="ws-kpis mb-5">
+        <div class="kpi is-accent"><div class="text-[11px] t-faint mb-3">On going</div><div class="kpi-val t-accent" id="kOngoing">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">On hold</div><div class="kpi-val t-fg" id="kOnhold">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Concluded</div><div class="kpi-val t-fg" id="kConcluded">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Data-alvo neste mês</div><div class="kpi-val t-fg" id="kMonth">—</div></div>
+      </div>
+      <div id="iniErr" class="ws-err mb-4" hidden></div>
+      <div class="ini-grid" id="iniGrid"></div>
+      <div class="ws-empty" id="iniEmpty" hidden>
+        <b id="iniEmptyT">Nenhuma initiative ainda</b>
+        <span id="iniEmptyS">Crie a primeira em Nova initiative.</span>
+      </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/initiatives.js') }}"></script>
+{% endblock %}

@@ -284,5 +284,9 @@
     }
   });
 
+  // a busca do Ctrl+K abre a tela ja filtrada (?q=)
+  var qInicial = new URLSearchParams(location.search).get('q');
+  if (qInicial) $('#busca').value = qInicial;
+
   carregar();
 })();

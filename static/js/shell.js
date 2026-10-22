@@ -1,18 +1,27 @@
 /* shell.js — casca comum do EDG Tracker: tema, sidebar e toast.
-   Exposto em window.EDG para as telas (recon e fatos relevantes). */
+   Exposto em window.EDG para as telas. Busca, criar e sino: workspace.js. */
 (function () {
   'use strict';
 
   var root = document.documentElement;
   var meta = document.querySelector('meta[name="theme-color"]');
 
-  function applyTheme(t) {
+  // 'auto' segue o sistema (escolha da Settings); o botão do topo grava o explícito
+  var mql = window.matchMedia ? matchMedia('(prefers-color-scheme: light)') : null;
+  function storedTheme() {
+    try { return localStorage.getItem('efin-theme') || 'dark'; } catch (e) { return 'dark'; }
+  }
+  function applyTheme(pref) {
+    var t = pref === 'auto' ? (mql && mql.matches ? 'light' : 'dark') : pref;
     root.classList.remove('dark', 'light');
     root.classList.add(t);
     if (meta) meta.setAttribute('content', t === 'dark' ? '#05080A' : '#F3F4F0');
-    try { localStorage.setItem('efin-theme', t); } catch (e) {}
+    try { localStorage.setItem('efin-theme', pref); } catch (e) {}
   }
-  applyTheme(root.classList.contains('light') ? 'light' : 'dark');
+  applyTheme(storedTheme());
+  if (mql && mql.addEventListener) {
+    mql.addEventListener('change', function () { if (storedTheme() === 'auto') applyTheme('auto'); });
+  }
 
   var themeBtn = document.getElementById('themeToggle');
   if (themeBtn) {
@@ -46,5 +55,5 @@
     toastTimer = setTimeout(function () { el.classList.remove('show'); }, ok ? 2800 : 6000);
   }
 
-  window.EDG = { toast: toast, setTheme: applyTheme, setSidebar: setSidebar };
+  window.EDG = { toast: toast, setTheme: applyTheme, themePref: storedTheme, setSidebar: setSidebar };
 })();

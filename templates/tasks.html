@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block titulo %}Tasks · EDG Tracker{% endblock %}
+{% block descricao %}Todas as tasks das initiatives, em quadro ou lista.{% endblock %}
+{% block topo_titulo %}Work<span class="t-accent">space</span>{% endblock %}
+{% block rodape %}Workspace salvo em data/workspace/ · fora do git{% endblock %}
+
+{% block conteudo %}
+    <section class="w-full border-b b-line pt-14 md:pt-16 pb-10 px-4 md:px-5 relative overflow-hidden">
+      <div class="glow-top"></div>
+      <div class="relative z-10 ws-head">
+        <div>
+          <div class="hero-anim-item pill mb-5"><span class="pulse-dot"></span>Workspace</div>
+          <h1 class="hero-anim-item text-4xl md:text-6xl t-fg font-light tracking-tighter">Tasks</h1>
+          <p class="hero-anim-item t-muted text-base mt-3" id="tkSub">&nbsp;</p>
+        </div>
+        <div class="ws-actions hero-anim-item">
+          <div class="seg" id="tkView">
+            <button data-view="board" class="active">Quadro</button>
+            <button data-view="list">Lista</button>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="tkNew"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nova task</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full border-b b-line ws-section">
+      <div class="ws-kpis mb-5">
+        <div class="kpi is-accent"><div class="text-[11px] t-faint mb-3">Em aberto</div><div class="kpi-val t-accent" id="kOpen">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Vencem nesta semana</div><div class="kpi-val t-fg" id="kWeek">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Atrasadas</div><div class="kpi-val t-fg" id="kLate">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Concluídas na semana</div><div class="kpi-val t-fg" id="kDoneWeek">—</div></div>
+      </div>
+
+      <div class="tk-filters mb-4">
+        <div class="tb-wrap">
+          <button type="button" class="btn-chip" id="fProj" aria-haspopup="menu"></button>
+          <div class="menu is-left" id="fProjMenu" hidden></div>
+        </div>
+        <button type="button" class="btn-chip" id="fMine" aria-pressed="false"></button>
+        <div class="tb-wrap">
+          <button type="button" class="btn-chip" id="fPrio" aria-haspopup="menu"></button>
+          <div class="menu is-left" id="fPrioMenu" hidden></div>
+        </div>
+        <div class="grow">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 t-faint" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="fQ" type="search" class="input" placeholder="Filtrar por título, initiative ou pessoa" autocomplete="off"/>
+        </div>
+      </div>
+
+      <div id="tkErr" class="ws-err mb-4" hidden></div>
+      <div class="ws-empty" id="tkNoIni" hidden><b>Tasks moram dentro de initiatives</b><a class="ws-link" href="{{ url_for('ws.initiatives_page') }}">Crie uma initiative primeiro</a></div>
+      <div class="tk-board" id="tkBoard"></div>
+      <div class="ws-box" id="tkList" hidden>
+        <div class="ws-box-head">
+          <div><div class="ws-title">Todas as tasks</div><div class="ws-sub" id="tkListSub"></div></div>
+          <div class="seg" id="tkSort"><button data-sort="due" class="active">Prazo</button><button data-sort="priority">Prioridade</button></div>
+        </div>
+        <div id="tkListBody"></div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+{% endblock %}

@@ -1,9 +1,14 @@
 # EDG Tracker
 
-Ferramenta interna com dois módulos (Python/Flask, HTML, JS), navegáveis pela sidebar:
+Ferramenta interna (Python/Flask, HTML, JS), navegável pela sidebar:
 
 1. **e-Financeira Recon** — batimento entre os arquivos `MMAA_TRD` e `MMAA_PTP`.
 2. **Fatos Relevantes** — importa os fatos relevantes do Plantão de Notícias da B3, com o documento na íntegra, em cards pesquisáveis.
+3. **Workspace** — Initiatives, Tasks, Calendar, Team e Settings, com a lógica de Initiatives do OTC Tracker.
+
+A barra do topo tem a busca (`Ctrl K` / `⌘K`: páginas, initiatives, tasks, pessoas e fatos), o
+**+** (nova initiative, task, evento ou pessoa), o tema e o sino de avisos. A sidebar mostra o
+contador de tasks vencendo hoje ou atrasadas e as initiatives fixadas (**Pinned**).
 
 ## Rodar
 
@@ -44,3 +49,28 @@ Observações:
   de novo; documentos que falharam são tentados outra vez na importação seguinte. Para mudar o
   destino do cache: `set EDG_DATA=C:\caminho`.
 - Se a CVM voltar a exigir captcha, o card é gravado só com o texto da B3 e o link da fonte.
+
+## Workspace
+
+A lógica de Initiatives é a do OTC Tracker (`features/projects`), no design do EDG Tracker:
+
+- **Classificações:** status `On going` · `On hold` · `Concluded`; categoria obrigatória
+  `Process Review` · `Tech Issue` · `Projects` · `B3 - Improvements` · `Stomp/Red`; task
+  `To do` · `In progress` · `In review` · `Done`; prioridade `Low` · `Medium` · `High` · `Urgent`.
+- **Pessoas:** Lead e time saem das pessoas **ativas** do Team; o responsável de cada task sai dos
+  **envolvidos** na initiative (Lead, time e quem já tem task) — fora deles a API recusa.
+- **Marco = evento da initiative** (`Novo evento`, com hora, duração, tipo e local). O card
+  Milestones só mostra; o clique abre o evento para editar, dar por atingido ou excluir.
+- Progresso, próximo marco, dias restantes, burn-up e atividade são calculados na leitura.
+- **Calendar** junta os eventos avulsos com as datas das initiatives (marcos, data-alvo e prazo
+  das tasks em aberto), lidas ao vivo — nunca guarda cópia.
+- **Team** — adicionar é direto, sem convite: o **SID** busca nome, e-mail, cargo e equipe no
+  cadastro de usuários do OTC Tracker (`Users_OTCTracker.db`, por `EDG_USERS_DB` ou a pasta
+  `OTC Tracker` ao lado desta) e, no Windows, no catálogo do Outlook. Quem usa a ferramenta é a
+  pessoa do SID da máquina.
+- **Fotos:** `static/img/users/<sid>.jpg` (fora do git). Se o OTC Tracker tem a foto do SID, ela é
+  copiada na busca.
+- **Settings:** perfil, avisos do sino, tema (claro, escuro, auto) e exportação das tasks em CSV.
+
+Os dados ficam em `data/workspace/` (`initiatives.json`, `calendar.json`, `settings.json`), fora
+do git; `EDG_WORKSPACE` muda a pasta.

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block titulo %}Settings · EDG Tracker{% endblock %}
+{% block descricao %}Seu perfil, a aparência do EDG Tracker e quando ele avisa.{% endblock %}
+{% block topo_titulo %}Work<span class="t-accent">space</span>{% endblock %}
+{% block rodape %}Preferências salvas em data/workspace/settings.json{% endblock %}
+
+{% block conteudo %}
+    <section class="w-full border-b b-line pt-14 md:pt-16 pb-10 px-4 md:px-5 relative overflow-hidden">
+      <div class="glow-top"></div>
+      <div class="relative z-10 ws-head">
+        <div>
+          <div class="hero-anim-item pill mb-5"><span class="pulse-dot"></span>Workspace</div>
+          <h1 class="hero-anim-item text-4xl md:text-6xl t-fg font-light tracking-tighter">Settings</h1>
+          <p class="hero-anim-item t-muted text-base mt-3">Seu perfil, a aparência do EDG Tracker e quando ele avisa.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full border-b b-line ws-section">
+      <div id="stErr" class="ws-err mb-4" hidden></div>
+      <div class="st-layout">
+        <nav class="ws-box st-nav" id="stNav" aria-label="Seções">
+          <div class="flex items-center gap-3 pb-3 mb-2 border-b b-line" id="stMe"></div>
+          <a href="#stProfile" class="is-on"><span class="st-ico" style="--h:var(--hue-blue)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Perfil</a>
+          <a href="#stNotify"><span class="st-ico" style="--h:var(--hue-pink)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>Avisos</a>
+          <a href="#stLook"><span class="st-ico" style="--h:var(--hue-purple)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span>Aparência</a>
+          <a href="#stData"><span class="st-ico" style="--h:var(--hue-teal)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0"/></svg></span>Dados</a>
+        </nav>
+
+        <div class="st-grid">
+          <div class="ws-box" id="stProfile">
+            <div class="ws-title">Perfil</div><div class="ws-sub mb-4">Como o time vê você · SID da máquina</div>
+            <div class="st-profile" id="stProfileHead"></div>
+            <form id="stProfileForm" class="grid gap-3" novalidate>
+              <label class="fld"><span>Nome</span><input class="input" name="name" maxlength="80"/></label>
+              <label class="fld"><span>E-mail</span><input class="input" name="email" maxlength="120"/></label>
+              <div class="fld-row"><label class="fld"><span>Cargo</span><input class="input" name="role" maxlength="80"/></label>
+              <label class="fld"><span>Equipe</span><input class="input" name="team" maxlength="80"/></label></div>
+              <div class="flex items-center gap-3"><button class="btn btn-primary btn-sm" type="submit">Salvar perfil</button><span class="text-xs t-faint" id="stPhotoHint"></span></div>
+            </form>
+          </div>
+
+          <div class="ws-box" id="stNotify">
+            <div class="ws-title">Avisos</div><div class="ws-sub mb-2">O que aparece no sino do topo</div>
+            <div id="stNotifyRows"></div>
+          </div>
+
+          <div class="ws-box wide" id="stLook">
+            <div class="ws-title">Aparência</div><div class="ws-sub mb-2">O tema do EDG Tracker neste navegador</div>
+            <div class="st-row">
+              <span class="st-ico" style="--h:var(--hue-indigo)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span>
+              <div class="txt"><b>Tema</b><small>Auto segue o sistema</small></div>
+              <div class="seg" id="stTheme"><button data-theme="light">Claro</button><button data-theme="dark">Escuro</button><button data-theme="auto">Auto</button></div>
+            </div>
+          </div>
+
+          <div class="ws-box wide" id="stData">
+            <div class="ws-title">Dados</div><div class="ws-sub mb-2">O que o Workspace guarda</div>
+            <div class="st-row">
+              <span class="st-ico" style="--h:var(--hue-green)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M3 17v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/></svg></span>
+              <div class="txt"><b>Exportar tasks em CSV</b><small id="stExportSub"></small></div>
+              <a class="btn btn-ghost btn-sm" href="/api/settings/export-tasks">Exportar</a>
+            </div>
+            <div class="st-row">
+              <span class="st-ico" style="--h:var(--hue-orange)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-7.9a1 1 0 0 1-.83-.45l-.81-1.2A1 1 0 0 0 8.63 5H4a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1Z"/></svg></span>
+              <div class="txt"><b>Pasta do Workspace</b><small id="stDir" class="font-mono"></small></div>
+            </div>
+            <div class="st-row">
+              <span class="st-ico" style="--h:var(--hue-blue)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
+              <div class="txt"><b>Cadastro de usuários (busca pelo SID)</b><small id="stUsersDb" class="font-mono"></small></div>
+            </div>
+            <div class="st-row">
+              <span class="st-ico" style="--h:var(--danger)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span>
+              <div class="txt"><b>Restaurar preferências</b><small>Avisos e initiatives fixadas voltam ao padrão; perfil, team e dados ficam</small></div>
+              <button type="button" class="btn btn-danger btn-sm" id="stReset">Restaurar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}

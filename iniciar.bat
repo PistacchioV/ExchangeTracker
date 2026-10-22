@@ -11,6 +11,11 @@ REM        iniciar.bat noinstall   ... pula a instalacao (util offline)
 REM
 REM  Nao instala Python. Se o desta estacao estiver num lugar que o script nao
 REM  procura, aponte:   set EFIN_PYTHON=C:\caminho\para\python.exe
+REM
+REM  Team (busca pelo SID): o cadastro de usuarios do OTC Tracker e lido de
+REM  EDG_USERS_DB; aponte para o Users_OTCTracker.db da instancia:
+REM        set EDG_USERS_DB=\\servidor\...\Users_OTCTracker.db
+REM  Sem ele, a busca usa o catalogo do Outlook desta maquina.
 REM ============================================================================
 
 setlocal

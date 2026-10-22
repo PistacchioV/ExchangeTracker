@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ projeto.name }} · EDG Tracker{% endblock %}
+{% block descricao %}Initiative {{ projeto.name }}: visão geral, marcos, burn-up e tarefas.{% endblock %}
+{% block topo_titulo %}<a href="{{ url_for('ws.initiatives_page') }}" class="t-muted hover:opacity-80">Initiatives</a> <span class="t-faint mx-1">/</span> <span class="t-accent">{{ projeto.name }}</span>{% endblock %}
+{% block rodape %}Workspace salvo em data/workspace/ · fora do git{% endblock %}
+
+{% block conteudo %}
+    <div id="iniPage" data-id="{{ projeto.id }}" style="--h: var(--hue-{{ projeto.color }})">
+    <section class="w-full border-b b-line pt-12 md:pt-14 pb-8 px-4 md:px-5 relative overflow-hidden">
+      <div class="glow-top"></div>
+      <div class="relative z-10 ws-head">
+        <div class="flex items-start gap-4 min-w-0">
+          <a href="{{ url_for('ws.initiatives_page') }}" class="icon-btn mt-1 hero-anim-item" aria-label="Voltar para Initiatives">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </a>
+          <span class="tile lg hero-anim-item" id="dIcon"></span>
+          <div class="min-w-0">
+            <h1 class="hero-anim-item text-3xl md:text-5xl t-fg font-light tracking-tighter" id="dName">{{ projeto.name }}</h1>
+            <p class="hero-anim-item t-muted text-sm mt-2 max-w-2xl" id="dDesc">&nbsp;</p>
+          </div>
+        </div>
+        <div class="ws-actions hero-anim-item">
+          <button type="button" class="btn btn-ghost btn-sm" id="dPin"></button>
+          <button type="button" class="btn btn-ghost btn-sm" id="dEdit"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>Editar</button>
+          <button type="button" class="btn btn-primary btn-sm" id="dEvent"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>Novo evento</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full border-b b-line ws-section">
+      <div class="ws-kpis mb-5">
+        <div class="kpi is-accent"><div class="text-[11px] t-faint mb-3">Progresso</div><div class="kpi-val t-accent" id="kProg">—</div><div class="bar"><span id="kProgBar" style="width:0"></span></div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Tasks em aberto</div><div class="kpi-val t-fg" id="kOpen">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3">Concluídas</div><div class="kpi-val t-fg" id="kDone">—</div></div>
+        <div class="kpi"><div class="text-[11px] t-faint mb-3" id="kDaysL">Dias restantes</div><div class="kpi-val t-fg" id="kDays">—</div></div>
+      </div>
+      <div id="dErr" class="ws-err mb-4" hidden></div>
+
+      <div class="ini-cols">
+        <div>
+          <div class="ws-box">
+            <div class="ws-box-head"><div class="ws-title">Visão geral</div></div>
+            <div class="ov-boxes">
+              <div class="ov-box"><small>Lead</small><div id="dLead"></div></div>
+              <div class="ov-box"><small>Status</small><div id="dStatus"></div></div>
+              <div class="ov-box wide"><small>Categoria</small><div id="dCat"></div></div>
+            </div>
+            <div id="dTimeline"></div>
+            <div class="flex items-center gap-2 mt-5 mb-3 text-xs t-fg3">Pessoas <span class="sb-badge" style="margin-left:0" id="dPplN">0</span></div>
+            <div class="ppl" id="dPpl"></div>
+          </div>
+
+          <div class="ws-box">
+            <div class="ws-box-head"><div><div class="ws-title">Milestones</div><div class="ws-sub" id="dMsSub"></div></div></div>
+            <ul class="ms-list" id="dMs"></ul>
+          </div>
+
+          <div class="ws-box">
+            <div class="ws-box-head"><div class="ws-title">Coming up</div><a class="ws-link" href="{{ url_for('ws.calendar_page') }}">Calendar</a></div>
+            <div id="dUp"></div>
+          </div>
+
+          <div class="ws-box">
+            <div class="ws-box-head"><div class="ws-title">Atividade recente</div></div>
+            <div id="dAct"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="ws-box">
+            <div class="ws-box-head">
+              <div><div class="ws-title">Burn-up</div><div class="ws-sub">Tasks concluídas contra o total, ao longo da initiative</div></div>
+              <div class="burn-legend"><span><i></i>Concluídas</span><span><i class="dash"></i>Total</span></div>
+            </div>
+            <div class="burn" id="dBurn"></div>
+          </div>
+
+          <div class="ws-box">
+            <div class="ws-box-head">
+              <div><div class="ws-title">Tasks</div><div class="ws-sub" id="dTasksSub"></div></div>
+              <button type="button" class="btn btn-primary btn-sm" id="dAddTask"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nova task</button>
+            </div>
+            <div id="dTasks"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/initiative.js') }}"></script>
+{% endblock %}

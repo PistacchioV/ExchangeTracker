@@ -2,3 +2,7 @@ flask>=2.2
 openpyxl>=3.1
 waitress>=2.1
 pypdf>=4.0
+# Team: busca pelo SID no cadastro de usuários do OTC Tracker (DuckDB, <2 como no OTC)
+duckdb>=0.10,<2
+# e no catálogo do Outlook da máquina (só Windows)
+pywin32>=306; sys_platform == "win32"

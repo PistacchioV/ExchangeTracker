@@ -13,6 +13,9 @@ app.py — servidor Flask do EDG Tracker.
     GET  /api/fatos/importar/status andamento da importacao em curso
     GET  /api/fatos/<id>           card com o texto integral do documento
     GET  /api/fatos/<id>/pdf       PDF do documento na integra
+
+  Workspace (Initiatives, Tasks, Calendar, Team, Settings)
+    rotas em workspace_api.py
 """
 
 import os
@@ -24,12 +27,14 @@ from flask import Flask, jsonify, render_template, request, send_file, send_from
 
 import fatos
 import recon
+import workspace_api
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MAX_RESULTADOS = 20
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.config["MAX_CONTENT_LENGTH"] = 200 * 1024 * 1024  # 200 MB
+workspace_api.init_app(app)
 
 # resultados recentes em memoria, para o export nao exigir novo upload
 _resultados = OrderedDict()
