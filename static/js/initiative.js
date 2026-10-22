@@ -11,7 +11,7 @@
   WS.currentProject = id;
 
   function carregada(fn) {
-    // botão clicado antes da carga espera por ela (no OTC o modal abria vazio)
+    // botão clicado antes da carga espera por ela (senão o modal abria vazio)
     return function () { if (P) fn(); };
   }
 

@@ -1,6 +1,6 @@
 """
-initiatives.py — Initiatives e Tasks do EDG Tracker, com as regras do OTC
-Tracker (features/projects): status, categorias, prioridades, o time da
+initiatives.py — Initiatives e Tasks do EDG Tracker: status, categorias,
+prioridades, o time da
 iniciativa, o responsável saído dos envolvidos, o marco como EVENTO, o
 burn-up e a atividade estruturada.
 
@@ -22,7 +22,7 @@ TASK_STATUSES = ["To do", "In progress", "In review", "Done"]
 DONE = "Done"
 PRIORITIES = ["Low", "Medium", "High", "Urgent"]
 DEFAULT_PRIORITY = "Medium"
-# Lista fechada, gravada em inglês como o status (a mesma do OTC Tracker).
+# Lista fechada, gravada em inglês como o status.
 CATEGORIES = ["Process Review", "Tech Issue", "Projects", "B3 - Improvements", "Stomp/Red"]
 
 # Cor e ícone são LISTA FECHADA: a cor vira `var(--hue-<cor>)` e o ícone um

@@ -1,16 +1,12 @@
 """
-diretorio.py — quem é o SID: nome, e-mail, cargo, equipe e foto, buscados
-internamente, como no OTC Tracker.
+diretorio.py — quem é o SID: nome, e-mail, cargo e equipe, buscados
+internamente.
 
 Ordem das fontes (a primeira que achar o SID responde; o que ela não trouxe a
 seguinte completa):
 
-  0. o phonebook interno do JPMorgan pela `awmpy` — a mesma chamada da
-     solicitação de acesso do OTC Tracker (`awmpy.get_phonebook_data(sid)`:
-     nameFull, email, positionName). Instalada do Artifactory pelo iniciar.bat;
-  1. o cadastro de usuários do OTC Tracker (`Users_OTCTracker.db`, DuckDB:
-     SID, Name, Email, Position, Role_Description) — EDG_USERS_DB aponta o
-     arquivo; sem ela, tenta a pasta do OTC Tracker ao lado desta;
+  1. o phonebook interno do JPMorgan pela `awmpy` (`get_phonebook_data(sid)`:
+     nameFull, email, positionName), instalada do Artifactory pelo iniciar.bat;
   2. o Active Directory (Windows + pywin32): o SID é o sAMAccountName; a busca
      vai ao Global Catalog (a floresta toda) e, se ele não responder, ao
      domínio da máquina — displayName, mail, title e department;
@@ -19,36 +15,27 @@ seguinte completa):
   4. só para o SID de quem está logado: o nome de exibição do Windows
      (GetUserNameExW, sem dependência).
 
-A foto é `static/img/users/<sid>.jpg`. Se ela ainda não existe aqui e o OTC
-Tracker tem a do SID (`images/users/<sid>.jpg`), ela é copiada na busca.
+A foto é `static/img/users/<sid>.jpg` (fora do git).
 
-Cada SID fica em memória por 10 minutos; o cadastro, o AD e o Outlook são
-lidos só quando alguém é adicionado ou a tela pede.
+Cada SID fica em memória por 10 minutos; as fontes são lidas só quando alguém
+é adicionado ou a tela pede.
 """
 
 import logging
 import os
 import re
-import shutil
 import sys
 import threading
 import time
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PHOTOS_DIR = os.path.join(BASE_DIR, "static", "img", "users")
-_OTC_DB_PADRAO = os.path.join(os.path.dirname(BASE_DIR), "OTC Tracker", "apps", "static",
-                              "data", "db", "Users_OTCTracker.db")
 _TTL = 600.0
 _RE_SID = re.compile(r"^[A-Z0-9]{2,20}$")
 
 log = logging.getLogger(__name__)
 _lock = threading.Lock()
 _memo = {}
-
-
-def users_db():
-    caminho = os.environ.get("EDG_USERS_DB") or _OTC_DB_PADRAO
-    return caminho if os.path.isfile(caminho) else ""
 
 
 # o phonebook não documenta o nome do campo de área; o primeiro que vier serve
@@ -73,33 +60,6 @@ def _do_awmpy(sid):
     equipe = next((texto(k) for k in _AWM_EQUIPE if texto(k)), "")
     return {"name": texto("nameFull"), "email": texto("email"), "role": texto("positionName"),
             "team": equipe, "source": "Phonebook JPMorgan"}
-
-
-def _do_otc(sid):
-    caminho = users_db()
-    if not caminho:
-        return None
-    try:
-        import duckdb
-    except ImportError:
-        log.info("duckdb ausente: cadastro do OTC Tracker não consultado")
-        return None
-    try:
-        conn = duckdb.connect(caminho, read_only=True)
-        try:
-            linha = conn.execute(
-                "SELECT SID, Name, Email, Position, Role_Description FROM users WHERE upper(SID) = ?",
-                [sid]).fetchone()
-        finally:
-            conn.close()
-    except Exception:
-        log.warning("não li o cadastro de usuários do OTC Tracker em %s", caminho, exc_info=True)
-        return None
-    if not linha:
-        return None
-    _, nome, email, cargo, desc = linha
-    return {"name": (nome or "").strip(), "email": (email or "").strip(),
-            "role": (cargo or "").strip(), "team": (desc or "").strip(), "source": "OTC Tracker"}
 
 
 def _do_ad(sid):
@@ -222,28 +182,6 @@ def photo_path(sid):
     return os.path.join(PHOTOS_DIR, sid.lower() + ".jpg")
 
 
-def _foto(sid):
-    """Garante a foto local (copiando a do OTC Tracker, se houver)."""
-    destino = photo_path(sid)
-    if os.path.isfile(destino):
-        return True
-    db = users_db()
-    if not db:
-        return False
-    # o banco mora em apps/static/data/db/; as fotos em apps/static/images/users/
-    origem = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(db))),
-                          "images", "users", sid.lower() + ".jpg")
-    if not os.path.isfile(origem):
-        return False
-    try:
-        os.makedirs(PHOTOS_DIR, exist_ok=True)
-        shutil.copyfile(origem, destino)
-        return True
-    except OSError:
-        log.warning("não copiei a foto de %s", sid, exc_info=True)
-        return False
-
-
 def lookup(sid, fresco=False):
     """{sid, name, email, role, team, photo, source} do SID, ou None se nenhuma
     fonte o conhece (a foto sozinha não basta). `fresco` ignora a memória."""
@@ -255,7 +193,7 @@ def lookup(sid, fresco=False):
         if hit and not fresco and time.time() - hit[0] < _TTL:
             return dict(hit[1]) if hit[1] else None
     achado = None
-    for fonte in (_do_awmpy, _do_otc, _do_ad, _do_outlook, _do_windows):
+    for fonte in (_do_awmpy, _do_ad, _do_outlook, _do_windows):
         r = fonte(sid)
         if not r:
             continue
@@ -271,10 +209,16 @@ def lookup(sid, fresco=False):
         achado = None if not any(achado.get(k) for k in ("email", "role", "team")) else achado
     if achado:
         achado["sid"] = sid
-        achado["photo"] = _foto(sid)
+        achado["photo"] = has_photo(sid)
     with _lock:
         _memo[sid] = (time.time(), achado)
     return dict(achado) if achado else None
+
+
+def phonebook_ok():
+    """A `awmpy` está instalada nesta máquina?"""
+    import importlib.util
+    return importlib.util.find_spec("awmpy") is not None
 
 
 def has_photo(sid):

@@ -5,7 +5,7 @@
   'use strict';
 
   var WS = window.WS, $ = WS.$, $$ = WS.$$, esc = WS.esc, icon = WS.icon;
-  var state = { people: [], filtro: '', users_db: false };
+  var state = { people: [], filtro: '', phonebook: false };
 
   function card(p) {
     var inis = p.initiatives || [];
@@ -33,10 +33,10 @@
     $('#kLeads').textContent = state.people.filter(function (p) { return p.leads; }).length;
     $('#kOpen').textContent = state.people.reduce(function (s, p) { return s + p.open_tasks; }, 0);
     $('#tmSub').textContent = ativos.length + ' pessoa' + (ativos.length === 1 ? '' : 's') + ' · ' + Object.keys(equipes).length + ' equipe' + (Object.keys(equipes).length === 1 ? '' : 's');
-    $('#tmSource').className = 'lookup mb-5' + (state.users_db ? ' is-ok' : '');
-    $('#tmSource').innerHTML = icon('search', 15) + '<span>' + (state.users_db
-      ? 'Adicionar pelo SID: nome, e-mail, cargo e equipe vêm do cadastro de usuários do OTC Tracker (e do Outlook no Windows). Fotos em <code>static/img/users/&lt;sid&gt;.jpg</code>.'
-      : 'Cadastro do OTC Tracker não encontrado — a busca pelo SID usa o Outlook (Windows). Para apontar o banco: <code>set EDG_USERS_DB=…\\Users_OTCTracker.db</code>. Fotos em <code>static/img/users/&lt;sid&gt;.jpg</code>.') + '</span>';
+    $('#tmSource').className = 'lookup mb-5' + (state.phonebook ? '' : ' is-miss');
+    $('#tmSource').innerHTML = icon('search', 15) + '<span>' + (state.phonebook
+      ? 'Adicionar pelo SID: nome, e-mail, cargo e equipe vêm do phonebook interno. Fotos em <code>static/img/users/&lt;sid&gt;.jpg</code>.'
+      : 'Phonebook interno (awmpy) indisponível nesta máquina — a busca pelo SID usa o Active Directory e o Outlook. Rode o iniciar.bat para instalar.') + '</span>';
 
     var lista = state.people.filter(function (p) {
       return !state.filtro || (state.filtro === 'on' ? p.active !== false : p.active === false);
@@ -51,7 +51,7 @@
     if (location.hash) { var alvo = document.getElementById(location.hash.slice(1)); if (alvo) alvo.scrollIntoView({ block: 'center' }); }
   }
 
-  function aplicar(d) { state.people = d.people; state.users_db = d.users_db; render(); }
+  function aplicar(d) { state.people = d.people; state.phonebook = d.phonebook; render(); }
   function load() {
     return WS.api('GET', '/api/team').then(function (d) { $('#tmErr').hidden = true; aplicar(d); })
       .catch(function (e) { $('#tmErr').hidden = false; $('#tmErr').textContent = e.message; });

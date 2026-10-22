@@ -627,7 +627,7 @@
   WS.refreshPerson = function (sid) {
     return api('POST', '/api/team/' + encodeURIComponent(sid) + '/refresh').then(function (d) {
       if (d.found) toast('Dados atualizados · fonte: ' + d.source + '.', true);
-      else toast(sid + ' não foi encontrado no cadastro interno (phonebook, OTC Tracker, Active Directory, Outlook). Preencha à mão.');
+      else toast(sid + ' não foi encontrado no cadastro interno (phonebook, Active Directory, Outlook). Preencha à mão.');
       return d.found ? d : null;
     }).catch(function (e) { WS.fail(e); return null; });
   };

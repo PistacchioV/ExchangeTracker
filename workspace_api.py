@@ -29,7 +29,7 @@ Team e Settings), num blueprint registrado pelo app.py.
     GET               /api/search?q=                      a busca do Ctrl+K
 """
 
-from flask import Blueprint, Response, abort, jsonify, redirect, render_template, request
+from flask import Blueprint, Response, abort, jsonify, render_template, request
 
 import diretorio
 import fatos
@@ -247,7 +247,7 @@ def _team_payload():
         pessoas.append(dict(p, photo=ws.photo_url(p["sid"]), is_me=p["sid"] == doc["me"],
                             open_tasks=abertas.get(p["sid"], 0), leads=lidera.get(p["sid"], 0),
                             initiatives=em.get(p["sid"], [])))
-    return {"people": pessoas, "me": doc["me"], "users_db": bool(diretorio.users_db())}
+    return {"people": pessoas, "me": doc["me"], "phonebook": diretorio.phonebook_ok()}
 
 
 @bp.route("/api/team", methods=["GET"])
@@ -322,7 +322,7 @@ def _settings_payload():
     eu = ws.me()
     return {"profile": dict(eu, photo=ws.photo_url(eu["sid"])), "notify": doc["notify"],
             "tasks_total": len(tarefas), "team_total": len(doc["team"]),
-            "users_db": diretorio.users_db(), "workspace_dir": ws.WS_DIR}
+            "phonebook": diretorio.phonebook_ok(), "workspace_dir": ws.WS_DIR}
 
 
 @bp.route("/api/settings", methods=["GET"])
@@ -409,5 +409,3 @@ def shell_context():
 def init_app(app):
     app.register_blueprint(bp)
     app.context_processor(shell_context)
-    # /projects do OTC Tracker vira /initiatives aqui também
-    app.add_url_rule("/projects", "projects_old", lambda: redirect("/initiatives"))

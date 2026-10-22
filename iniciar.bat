@@ -12,9 +12,8 @@ REM
 REM  Nao instala Python. Se o desta estacao estiver num lugar que o script nao
 REM  procura, aponte:   set EFIN_PYTHON=C:\caminho\para\python.exe
 REM
-REM  Team (busca pelo SID): o phonebook interno pelo awmpy (instalado do
-REM  Artifactory, como no OTC Tracker). Opcional: o cadastro do OTC Tracker,
-REM        set EDG_USERS_DB=\\servidor\...\Users_OTCTracker.db
+REM  Team (busca pelo SID): o phonebook interno pelo awmpy, instalado do
+REM  Artifactory abaixo.
 REM ============================================================================
 
 setlocal
@@ -130,7 +129,7 @@ if /I "%~1"=="noinstall" (
         echo         Seguindo com o que ja esta instalado.
         echo.
     )
-    REM  awmpy: a biblioteca interna do phonebook, a mesma do OTC Tracker, que
+    REM  awmpy: a biblioteca interna do phonebook, que
     REM  preenche o Team pelo SID. So existe no Artifactory do banco.
     echo [INFO] Instalando awmpy ^(phonebook pelo SID^)...
     "%PY%" -m pip install --prefer-binary --index-url %ARTIFACTORY_PYPI% "awmpythoninnovation-awmpy[kerberos]" --timeout 10 --retries 1 --disable-pip-version-check

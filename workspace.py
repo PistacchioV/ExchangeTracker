@@ -257,7 +257,7 @@ def photo_url(sid):
 
 def eligible():
     """Quem pode ser Lead, entrar no time de uma iniciativa e receber tarefa:
-    as pessoas ATIVAS do Team (no OTC, os usuários BO/Admin ativos)."""
+    as pessoas ATIVAS do Team."""
     return [{"sid": p["sid"], "name": p["name"], "position": p.get("role", ""),
              "photo": photo_url(p["sid"])}
             for p in team(apenas_ativos=True)]
@@ -302,7 +302,7 @@ def update_profile(data):
 
 def add_person(data):
     """Adiciona ao Team pelo SID. O que a tela não mandou é completado pelo
-    diretório (banco de usuários do OTC Tracker, Outlook) — a tela já mostra o
+    diretório (phonebook interno, AD, Outlook) — a tela já mostra o
     que foi achado antes de salvar, e o que a pessoa digitou vale."""
     data = dict(data or {})
     sid = clean_sid(data.get("sid"))

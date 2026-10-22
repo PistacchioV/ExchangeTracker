@@ -1,6 +1,6 @@
 /* initiatives.js — a lista de Initiatives: contadores, filtro por categoria
    (lembrado no navegador) e por status, e um cartão por iniciativa. Os
-   contadores do topo acompanham a categoria escolhida, como no OTC Tracker. */
+   contadores do topo acompanham a categoria escolhida. */
 (function () {
   'use strict';
 

@@ -26,7 +26,7 @@
     }).join('');
     $('#stExportSub').textContent = S.tasks_total + ' task' + (S.tasks_total === 1 ? '' : 's') + ', uma linha cada (separador ;)';
     $('#stDir').textContent = S.workspace_dir;
-    $('#stUsersDb').textContent = S.users_db || 'não encontrado — defina EDG_USERS_DB (no Windows o Outlook também responde)';
+    $('#stPhonebook').textContent = S.phonebook ? 'Phonebook interno (awmpy) disponível' : 'Phonebook interno (awmpy) indisponível — usa o Active Directory e o Outlook';
     var pref = window.EDG.themePref();
     $$('#stTheme button').forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-theme') === pref); });
   }
