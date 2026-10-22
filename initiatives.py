@@ -468,11 +468,31 @@ def recent_activity(limit=30):
     return out[:limit]
 
 
-def involved_everywhere():
-    sids = set()
-    for p in STORE.load()["projects"]:
-        sids.update(involved_sids(p))
-    return sids
+def release_person(sid):
+    """Tira a pessoa de todas as iniciativas antes de ela sair do Team: sai do
+    time e as tasks EM ABERTO dela ficam sem responsável (as concluídas
+    guardam o nome, é histórico). Quem é Lead não sai: troque o Lead antes."""
+    actor = _actor()
+
+    def go(doc):
+        lidera = [p["name"] for p in doc["projects"] if p.get("lead_sid") == sid]
+        if lidera:
+            raise WorkspaceError("person_is_lead",
+                                 "Esta pessoa é Lead de: %s. Troque o Lead antes de excluir." % ", ".join(lidera))
+        mexidas = 0
+        for p in doc["projects"]:
+            antes = len(p.get("members") or [])
+            p["members"] = [m for m in p.get("members") or [] if m.get("sid") != sid]
+            soltas = 0
+            for t in p.get("tasks") or []:
+                if t.get("assignee_sid") == sid and t.get("status") != DONE:
+                    t["assignee_sid"], t["assignee_name"] = "", ""
+                    soltas += 1
+            if soltas or len(p["members"]) != antes:
+                mexidas += 1
+                _event(p, actor, "person_removed", name=ws.directory().get(sid, {}).get("name", sid), tasks=soltas)
+        return mexidas
+    return STORE.mutate(go)
 
 
 def open_due_count(today=None):

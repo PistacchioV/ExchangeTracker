@@ -12,10 +12,9 @@ REM
 REM  Nao instala Python. Se o desta estacao estiver num lugar que o script nao
 REM  procura, aponte:   set EFIN_PYTHON=C:\caminho\para\python.exe
 REM
-REM  Team (busca pelo SID): o cadastro de usuarios do OTC Tracker e lido de
-REM  EDG_USERS_DB; aponte para o Users_OTCTracker.db da instancia:
+REM  Team (busca pelo SID): o phonebook interno pelo awmpy (instalado do
+REM  Artifactory, como no OTC Tracker). Opcional: o cadastro do OTC Tracker,
 REM        set EDG_USERS_DB=\\servidor\...\Users_OTCTracker.db
-REM  Sem ele, a busca usa o catalogo do Outlook desta maquina.
 REM ============================================================================
 
 setlocal
@@ -24,6 +23,7 @@ if defined EFIN_PORTA set "PORTA=%EFIN_PORTA%"
 set "URL=http://127.0.0.1:%PORTA%/"
 REM  porta do agente de proxy local da estacao (localproxy-cfg)
 set "PROXY_LOCAL_PORTA=9443"
+set "ARTIFACTORY_PYPI=https://artifacts.jpmchase.net/artifactory/api/pypi/pypi/simple/"
 
 REM ---------------------------------------------------------------------------
 REM  Reentrada: chamado com --abrir, este mesmo .bat nao sobe nada. So espera a
@@ -129,6 +129,13 @@ if /I "%~1"=="noinstall" (
         echo [AVISO] Nao consegui instalar/atualizar as dependencias ^(rede/pypi^).
         echo         Seguindo com o que ja esta instalado.
         echo.
+    )
+    REM  awmpy: a biblioteca interna do phonebook, a mesma do OTC Tracker, que
+    REM  preenche o Team pelo SID. So existe no Artifactory do banco.
+    echo [INFO] Instalando awmpy ^(phonebook pelo SID^)...
+    "%PY%" -m pip install --prefer-binary --index-url %ARTIFACTORY_PYPI% "awmpythoninnovation-awmpy[kerberos]" --timeout 10 --retries 1 --disable-pip-version-check
+    if errorlevel 1 (
+        echo [AVISO] awmpy nao instalado: no Team, o SID nao preenche os dados sozinho.
     )
 )
 

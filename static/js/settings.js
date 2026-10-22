@@ -47,6 +47,9 @@
         if (u) { u.querySelector('b').textContent = d.profile.name; u.querySelector('small').textContent = d.profile.role || d.profile.sid; }
       }).catch(WS.fail);
   });
+  $('#stRefresh').addEventListener('click', function () {
+    WS.refreshPerson(S.profile.sid).then(function (d) { if (d) location.reload(); });
+  });
   $('#stNotifyRows').addEventListener('click', function (e) {
     var b = e.target.closest('[data-n]'); if (!b) return;
     var corpo = {}; corpo[b.getAttribute('data-n')] = !S.notify[b.getAttribute('data-n')];

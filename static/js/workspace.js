@@ -246,7 +246,8 @@
     commented: 'comentou em “{task}”',
     milestone_added: 'criou o marco “{milestone}”',
     milestone_done: 'atingiu o marco “{milestone}”',
-    milestone_reopened: 'reabriu o marco “{milestone}”'
+    milestone_reopened: 'reabriu o marco “{milestone}”',
+    person_removed: 'tirou {name} da initiative'
   };
   WS.activityText = function (a) {
     var t = ACT[a.kind] || a.kind;
@@ -545,8 +546,9 @@
       '<div class="fld-row"><label class="fld"><span>Cargo</span><input class="input" name="role" maxlength="80" value="' + esc(p ? p.role : '') + '"/></label>' +
       '<label class="fld"><span>Equipe</span><input class="input" name="team" maxlength="80" list="wsTeams" value="' + esc(p ? p.team : '') + '"/></label></div>' +
       '<datalist id="wsTeams">' + (opts.teams || []).map(function (t) { return '<option value="' + esc(t) + '">'; }).join('') + '</datalist>';
-    var left = p && !p.is_me ? '<button type="button" class="btn btn-ghost btn-sm" data-active>' + (p.active === false ? 'Reativar' : 'Desativar') + '</button>' +
-      '<button type="button" class="btn btn-danger btn-sm" data-del>' + icon('trash', 13) + '</button>' : '';
+    var left = (p ? '<button type="button" class="btn btn-ghost btn-sm" data-refresh title="Buscar o SID de novo no cadastro interno">' + icon('search', 13) + ' Atualizar do cadastro</button>' : '') +
+      (p && !p.is_me ? '<button type="button" class="btn btn-ghost btn-sm" data-active>' + (p.active === false ? 'Reativar' : 'Desativar') + '</button>' +
+      '<button type="button" class="btn btn-danger btn-sm" data-del>' + icon('trash', 13) + ' Excluir</button>' : '');
     var m = modal({
       title: p ? p.name : 'Adicionar ao team', sub: p ? p.sid : 'Entra direto — sem convite.', body: body, left: left, ok: p ? 'Salvar' : 'Adicionar',
       onOk: function (x) {
@@ -590,6 +592,13 @@
       f.sid.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(buscar, 450); });
       f.sid.addEventListener('blur', buscar);
     } else {
+      $('[data-refresh]', m.el).addEventListener('click', function () {
+        WS.refreshPerson(p.sid).then(function (d) {
+          if (!d) return;
+          m.close(); META = null;
+          if (opts.onDone) opts.onDone(d); WS.changed('team');
+        });
+      });
       var at = $('[data-active]', m.el);
       if (at) at.addEventListener('click', function () {
         api('PATCH', '/api/team/' + p.sid, { active: p.active === false }).then(function (d) {
@@ -599,15 +608,28 @@
       });
       var del = $('[data-del]', m.el);
       if (del) del.addEventListener('click', function () {
-        WS.confirm('Remover do team', 'Remover ' + p.name + ' (' + p.sid + ') do team?', 'Remover').then(function (sim) {
-          if (!sim) return;
-          api('DELETE', '/api/team/' + p.sid).then(function (d) {
-            m.close(); META = null; toast('Removido do team.', true);
-            if (opts.onDone) opts.onDone(d); WS.changed('team');
-          }).catch(WS.fail);
-        });
+        WS.deletePerson(p).then(function (d) { if (d) { m.close(); if (opts.onDone) opts.onDone(d); } });
       });
     }
+  };
+
+  // exclui do Team: sai dos times e as tasks em aberto ficam sem responsável
+  WS.deletePerson = function (p) {
+    return WS.confirm('Excluir usuário', 'Excluir ' + p.name + ' (' + p.sid + ') do team? Ele sai do time das initiatives e as tasks em aberto dele ficam sem responsável. Quem é Lead precisa ser trocado antes.', 'Excluir').then(function (sim) {
+      if (!sim) return null;
+      return api('DELETE', '/api/team/' + encodeURIComponent(p.sid)).then(function (d) {
+        META = null; toast(p.name + ' foi excluído do team.', true); WS.changed('team'); return d;
+      }).catch(function (e) { WS.fail(e); return null; });
+    });
+  };
+
+  // busca o SID de novo no cadastro interno e grava o que vier
+  WS.refreshPerson = function (sid) {
+    return api('POST', '/api/team/' + encodeURIComponent(sid) + '/refresh').then(function (d) {
+      if (d.found) toast('Dados atualizados · fonte: ' + d.source + '.', true);
+      else toast(sid + ' não foi encontrado no cadastro interno (phonebook, OTC Tracker, Active Directory, Outlook). Preencha à mão.');
+      return d.found ? d : null;
+    }).catch(function (e) { WS.fail(e); return null; });
   };
 
   // ---------------------------------------------------------- gaveta tarefa

@@ -21,6 +21,7 @@ Team e Settings), num blueprint registrado pelo app.py.
     GET|POST          /api/team                           POST adiciona pelo SID
     GET               /api/team/lookup?sid=               o que o diretório sabe do SID
     PATCH|DELETE      /api/team/<sid>
+    POST              /api/team/<sid>/refresh             busca o SID de novo no diretório
     GET|PATCH         /api/settings                       perfil e avisos
     POST              /api/settings/reset
     GET               /api/settings/export-tasks          CSV das tarefas
@@ -288,10 +289,25 @@ def api_team_update(sid):
     return jsonify(_team_payload())
 
 
+@bp.route("/api/team/<sid>/refresh", methods=["POST"])
+def api_team_refresh(sid):
+    try:
+        _, achado = ws.refresh_person(sid.upper())
+    except ws.NotFound as exc:
+        return jsonify(error=exc.text, code=exc.code), 404
+    out = _team_payload()
+    out["found"] = bool(achado)
+    out["source"] = (achado or {}).get("source", "")
+    return jsonify(out)
+
+
 @bp.route("/api/team/<sid>", methods=["DELETE"])
 def api_team_delete(sid):
+    sid = sid.upper()
     try:
-        ws.delete_person(sid.upper(), ini.involved_everywhere())
+        ws.check_delete(sid)
+        ini.release_person(sid)
+        ws.delete_person(sid)
     except ws.NotFound as exc:
         return jsonify(error=exc.text, code=exc.code), 404
     except ws.WorkspaceError as exc:

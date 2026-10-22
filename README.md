@@ -65,9 +65,14 @@ A lógica de Initiatives é a do OTC Tracker (`features/projects`), no design do
 - **Calendar** junta os eventos avulsos com as datas das initiatives (marcos, data-alvo e prazo
   das tasks em aberto), lidas ao vivo — nunca guarda cópia.
 - **Team** — adicionar é direto, sem convite: o **SID** busca nome, e-mail, cargo e equipe no
-  cadastro de usuários do OTC Tracker (`Users_OTCTracker.db`, por `EDG_USERS_DB` ou a pasta
-  `OTC Tracker` ao lado desta) e, no Windows, no catálogo do Outlook. Quem usa a ferramenta é a
-  pessoa do SID da máquina.
+  phonebook interno pela `awmpy` — a mesma chamada da solicitação de acesso do OTC Tracker
+  (`awmpy.get_phonebook_data`, instalada do Artifactory pelo `iniciar.bat`). Se ela não responder,
+  tenta o cadastro do OTC Tracker (`EDG_USERS_DB`), o Active Directory e o Outlook. Quem usa a
+  ferramenta é a pessoa do SID da máquina; enquanto o nome for só o SID, o EDG busca de novo, e
+  **Atualizar do cadastro** força a busca.
+- **Excluir usuário** (lixeira no cartão ou no modal): a pessoa sai do time das initiatives e as
+  tasks em aberto dela ficam sem responsável; as concluídas guardam o nome. Quem é Lead precisa
+  ser trocado antes, e o próprio usuário não se exclui.
 - **Fotos:** `static/img/users/<sid>.jpg` (fora do git). Se o OTC Tracker tem a foto do SID, ela é
   copiada na busca.
 - **Settings:** perfil, avisos do sino, tema (claro, escuro, auto) e exportação das tasks em CSV.

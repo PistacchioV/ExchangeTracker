@@ -191,10 +191,39 @@ def _buscar(sid):
         return None
 
 
+def _sem_nome(p):
+    """Nome que é só o SID: o diretório não respondeu quando a pessoa entrou."""
+    return not p.get("name") or p["name"].replace(" ", "").upper() == p["sid"]
+
+
+def _completar(p, achado, sobrescrever):
+    """Preenche a pessoa com o que o diretório achou. Sem `sobrescrever`, só o
+    que está vazio (e o nome que é só o SID)."""
+    mudou = False
+    for k in ("name", "email", "role", "team"):
+        v = (achado or {}).get(k)
+        if v and (sobrescrever or not p.get(k) or (k == "name" and _sem_nome(p))) and p.get(k) != v:
+            p[k] = v
+            mudou = True
+    return mudou
+
+
 def settings():
     doc = SETTINGS.load()
     if not any(p["sid"] == doc.get("me") for p in doc["team"]):
         doc = SETTINGS.mutate(lambda d: (_garantir_me(d), d)[1])
+    eu = next((p for p in doc["team"] if p["sid"] == doc["me"]), None)
+    if eu is not None and _sem_nome(eu):
+        # o perfil nasceu sem o nome (diretório fora do ar): tenta de novo;
+        # a busca fica 10 min em memória, então não pesa a cada página
+        achado = _buscar(eu["sid"])
+        if achado and achado.get("name"):
+            def go(d):
+                for p in d["team"]:
+                    if p["sid"] == d.get("me"):
+                        _completar(p, achado, False)
+                return d
+            doc = SETTINGS.mutate(go)
     notify = dict(DEFAULT_NOTIFY)
     for k, v in (doc.get("notify") or {}).items():
         if k in notify and isinstance(v, bool):
@@ -307,19 +336,35 @@ def update_person(sid, data):
     return SETTINGS.mutate(go)
 
 
-def delete_person(sid, em_uso):
-    """Tira a pessoa do time. Quem lidera, está num time ou tem tarefa fica —
-    desative em vez de apagar (`em_uso` = SIDs envolvidos em iniciativas)."""
+def refresh_person(sid):
+    """Busca o SID de novo no diretório (sem a memória) e grava o que vier.
+    Devolve (pessoa, achado)."""
+    import diretorio
+    achado = diretorio.lookup(sid, fresco=True)
+
     def go(doc):
-        if sid == doc.get("me"):
-            raise WorkspaceError("me_delete", "Você não pode se remover do time.")
-        if sid in em_uso:
-            raise WorkspaceError("person_in_use",
-                                 "Esta pessoa está em uma iniciativa — desative em vez de remover.")
-        antes = len(doc["team"])
+        for p in doc["team"]:
+            if p["sid"] == sid:
+                if achado:
+                    _completar(p, achado, True)
+                return p
+        raise NotFound("person_not_found", "Pessoa não encontrada.")
+    return SETTINGS.mutate(go), achado
+
+
+def check_delete(sid):
+    """Pode excluir? Você mesmo não (o perfil é o SID da máquina)."""
+    doc = settings()
+    if sid == doc.get("me"):
+        raise WorkspaceError("me_delete", "Você não pode excluir o seu próprio usuário.")
+    if not any(p["sid"] == sid for p in doc["team"]):
+        raise NotFound("person_not_found", "Pessoa não encontrada.")
+
+
+def delete_person(sid):
+    """Tira a pessoa do Team (as iniciativas já foram liberadas antes)."""
+    def go(doc):
         doc["team"] = [p for p in doc["team"] if p["sid"] != sid]
-        if len(doc["team"]) == antes:
-            raise NotFound("person_not_found", "Pessoa não encontrada.")
         return True
     return SETTINGS.mutate(go)
 

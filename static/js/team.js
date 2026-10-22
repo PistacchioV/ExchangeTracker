@@ -14,7 +14,8 @@
       '<div class="min-w-0 flex-1"><b>' + esc(p.name) + (p.is_me ? ' <span class="st st-ongoing no-dot" style="vertical-align:middle">você</span>' : '') + '</b>' +
       '<small>' + esc(p.role || '—') + '</small><span class="person-sid">' + esc(p.sid) + '</span>' +
       (p.active === false ? ' <span class="st no-dot" style="--h:var(--faint)">inativo</span>' : '') + '</div>' +
-      '<button type="button" class="icon-btn" data-edit="' + esc(p.sid) + '" aria-label="Editar ' + esc(p.name) + '">' + icon('pencil', 13) + '</button></div>' +
+      '<button type="button" class="icon-btn" data-edit="' + esc(p.sid) + '" aria-label="Editar ' + esc(p.name) + '" title="Editar">' + icon('pencil', 13) + '</button>' +
+      (p.is_me ? '' : '<button type="button" class="icon-btn" data-del="' + esc(p.sid) + '" aria-label="Excluir ' + esc(p.name) + '" title="Excluir">' + icon('trash', 13) + '</button>') + '</div>' +
       (p.email ? '<a class="text-xs t-muted truncate hover:opacity-80" href="mailto:' + esc(p.email) + '">' + esc(p.email) + '</a>' : '<span class="text-xs t-faint">sem e-mail</span>') +
       '<div class="person-stats"><div><small>Tasks em aberto</small><b>' + p.open_tasks + '</b></div><div><small>Lidera</small><b>' + p.leads + '</b></div></div>' +
       (inis.length ? '<div class="person-inis">' + inis.slice(0, 4).map(function (i) {
@@ -61,6 +62,12 @@
 
   $('#tmAdd').addEventListener('click', function () { WS.openPerson({ teams: equipes(), onDone: aplicar }); });
   $('#tmGroups').addEventListener('click', function (e) {
+    var d = e.target.closest('[data-del]');
+    if (d) {
+      var alvo = state.people.filter(function (x) { return x.sid === d.getAttribute('data-del'); })[0];
+      WS.deletePerson(alvo).then(function (r) { if (r) aplicar(r); });
+      return;
+    }
     var b = e.target.closest('[data-edit]'); if (!b) return;
     var p = state.people.filter(function (x) { return x.sid === b.getAttribute('data-edit'); })[0];
     WS.openPerson({ person: p, teams: equipes(), onDone: aplicar });
