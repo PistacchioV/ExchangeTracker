@@ -13,7 +13,7 @@
   try { state.view = localStorage.getItem('edg-cal-view') || 'month'; } catch (e) {}
 
   function doDia(iso) { return state.events.filter(function (e) { return e.date === iso; }); }
-  function corDe(e) { return e.kind === 'event' ? 'var(--hue-lime)' : WS.hue(e.color); }
+  function corDe(e) { return e.kind === 'event' ? 'var(--hue-amber)' : WS.hue(e.color); }
   function ordem(a, b) {
     var k = { project: 0, milestone: 1, event: 1, task: 2 };
     return (a.time || '').localeCompare(b.time || '') || k[a.kind] - k[b.kind];

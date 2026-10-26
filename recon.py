@@ -437,14 +437,14 @@ def to_json(result):
 # --------------------------------------------------------------------------- #
 #  Exportacao Excel
 # --------------------------------------------------------------------------- #
-INK = "05080A"
-LIME = "C6F91F"
+INK = "1F1F1D"
+AMBER = "F59E0B"
 FILL_HEAD = PatternFill("solid", fgColor=INK)
 FILL_TRD = PatternFill("solid", fgColor="EEF1F4")
 FILL_PTP = PatternFill("solid", fgColor="F6F7F2")
-FILL_DIF = PatternFill("solid", fgColor="F4FBDC")
+FILL_DIF = PatternFill("solid", fgColor="FEF3C7")
 FILL_BAD = PatternFill("solid", fgColor="FDE2DC")
-FILL_ALLEGE = PatternFill("solid", fgColor="FFF4D6")
+FILL_ALLEGE = PatternFill("solid", fgColor="FFEDD5")
 THIN = Side(style="thin", color="D9DDE1")
 BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
 
@@ -463,7 +463,7 @@ def to_excel(result):
         c = ws.cell(row=1, column=j, value=h)
         c.fill = FILL_HEAD
         is_dif = j <= len(cols) and cols[j - 1]["src"] == "DIF"
-        c.font = Font(bold=True, color=LIME if is_dif else "FFFFFF", name="Calibri", size=11)
+        c.font = Font(bold=True, color=AMBER if is_dif else "FFFFFF", name="Calibri", size=11)
         c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
         c.border = BORDER
     ws.row_dimensions[1].height = 32
@@ -494,7 +494,7 @@ def to_excel(result):
             c.border = BORDER
             if key == "status" and allege:
                 c.fill = FILL_ALLEGE
-                c.font = Font(bold=True, color="8A5A00")
+                c.font = Font(bold=True, color="9A3412")
             elif key == "valores" and r[key] == VAL_DIV:
                 c.fill = FILL_BAD
                 c.font = Font(bold=True, color="B3261E")

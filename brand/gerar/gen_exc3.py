@@ -71,7 +71,8 @@ def glyphs(p):
       <g clip-path="url(#{p}-xbox)"><path d="M565.9 -80L939.1 740M939.1 -80L565.9 740" stroke-width="164" stroke="inherit"/></g>
       <path d="{C_RING}"/>'''
 
-GRAD = {'dark': ('#F0FF94', '#C6F91F', '#93CF00'), 'light': ('#D9FF45', '#B9EC12', '#86BB00')}
+# âmbar: Soft Yellow #FDE68A → Action Amber #F59E0B → âmbar queimado
+GRAD = {'dark': ('#FDE68A', '#F59E0B', '#D97706'), 'light': ('#FCD34D', '#F59E0B', '#D97706')}
 
 def symbol(p, ink, acc, grad=None):
     cols = "".join("M%s L%.1f 720 L%.1f 720 Z " % (fmt(c), c[-1][0], c[0][0]) for c in COLS)
@@ -86,9 +87,9 @@ def symbol(p, ink, acc, grad=None):
     gdef = ""
     if grad:
         a, b, c = GRAD[grad]
-        gdef = (f'<linearGradient id="{p}-lime" gradientUnits="userSpaceOnUse" x1="0" y1="250" x2="0" y2="660">'
+        gdef = (f'<linearGradient id="{p}-amb" gradientUnits="userSpaceOnUse" x1="0" y1="250" x2="0" y2="660">'
                 f'<stop offset="0" stop-color="{a}"/><stop offset="0.5" stop-color="{b}"/><stop offset="1" stop-color="{c}"/></linearGradient>')
-        acc = f"url(#{p}-lime)"
+        acc = f"url(#{p}-amb)"
     return f'''<defs>
     {gdef}
     <clipPath id="{p}-xbox"><rect x="515" y="7" width="475" height="646"/></clipPath>
@@ -108,7 +109,7 @@ W = {
  "R": "M8.5 100V8.5H53.5A16 16 0 0 1 69.5 24.5V36A16 16 0 0 1 53.5 52H8.5M40 52L72 100",
  "K": "M8.5 0V100M8.5 58L74 2M34 37L74 100",
 }
-WMG = {'light': ('#8CC000', '#6A9400', '#4F6D00'), 'dark': ('#F0FF94', '#C6F91F', '#93CF00')}
+WMG = {'light': ('#E08E06', '#B45309', '#92400E'), 'dark': ('#FDE68A', '#FBBF24', '#F59E0B')}
 
 def wordmark(p, ink, acc, acc_txt=None, grad=None):
     def word(w, x0, cor):
@@ -134,16 +135,16 @@ def svg(nome, vb, corpo, titulo="EXC · Exchange Tracker"):
 </svg>
 ''')
 
-PAL = {"": ("#05080A", "#C6F91F"), "-dark": ("#FFFFFF", "#C6F91F")}
-TXT = {"": "#4F6D00", "-dark": None}
+PAL = {"": ("#1F1F1D", "#F59E0B"), "-dark": ("#FFFBEB", "#F59E0B")}
+TXT = {"": "#B45309", "-dark": None}
 for suf, (ink, acc) in PAL.items():
     p = "e3" + suf.replace("-", "")
     svg(f"exchange-tracker-exc3-full{suf}.svg", "-14 -10 1640 884", symbol(p + "f", ink, acc, "light" if suf == "" else "dark") + "\n  " + wordmark(p + "f", ink, acc, TXT[suf], "light" if suf == "" else "dark"))
     svg(f"exchange-tracker-exc3-sm{suf}.svg", "-14 -10 1640 676", symbol(p + "s", ink, acc, "light" if suf == "" else "dark"), "EXC")
 # ícone da aba: o sm black estreitado (0,72 na horizontal) para caber maior no quadrado
 svg("exchange-tracker-exc3-favicon.svg", "-10 -260 1180 1180",
-    '<g transform="scale(0.72 1)">' + symbol("e3i", "#05080A", "#C6F91F", "light") + "</g>", "EXC")
+    '<g transform="scale(0.72 1)">' + symbol("e3i", "#1F1F1D", "#F59E0B", "light") + "</g>", "EXC")
 svg("exchange-tracker-exc3-notify.svg", "0 0 1024 1024",
-    '<rect width="1024" height="1024" rx="224" fill="#05080A"/>\n  <g transform="translate(70 333) scale(0.55)">' +
-    symbol("e3n", "#FFFFFF", "#C6F91F", "dark") + "</g>", "EXC")
+    '<rect width="1024" height="1024" rx="224" fill="#1F1F1D"/>\n  <g transform="translate(70 333) scale(0.55)">' +
+    symbol("e3n", "#FFFBEB", "#F59E0B", "dark") + "</g>", "EXC")
 print("ok")

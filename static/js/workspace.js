@@ -183,7 +183,7 @@
   };
   WS.tsTag = function (s) { return '<span class="st ts-' + slug(s) + '">' + esc(s) + '</span>'; };
   WS.catTag = function (c) { return c ? '<span class="cat">' + icon('tag', 10) + esc(c) + '</span>' : '<span class="cat t-faint">sem categoria</span>'; };
-  WS.TASK_HUE = { 'To do': 'var(--faint)', 'In progress': 'var(--hue-blue)', 'In review': 'var(--hue-purple)', 'Done': 'var(--hue-lime)' };
+  WS.TASK_HUE = { 'To do': 'var(--faint)', 'In progress': 'var(--hue-blue)', 'In review': 'var(--hue-purple)', 'Done': 'var(--hue-green)' };
 
   // anel de progresso dos cartões
   function ring(pct, h, size) {

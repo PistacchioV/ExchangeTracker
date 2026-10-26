@@ -15,7 +15,7 @@
     var t = pref === 'auto' ? (mql && mql.matches ? 'light' : 'dark') : pref;
     root.classList.remove('dark', 'light');
     root.classList.add(t);
-    if (meta) meta.setAttribute('content', t === 'dark' ? '#05080A' : '#F3F4F0');
+    if (meta) meta.setAttribute('content', t === 'dark' ? '#1F1F1D' : '#FFFBEB');
     try { localStorage.setItem('efin-theme', pref); } catch (e) {}
   }
   applyTheme(storedTheme());
