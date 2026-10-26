@@ -18,6 +18,7 @@ app.py — servidor Flask do Exchange Tracker.
     rotas em workspace_api.py
 """
 
+import hashlib
 import os
 import threading
 import uuid
@@ -53,6 +54,19 @@ def _guardar(result):
 @app.route("/")
 def index():
     return render_template("index.html", pagina="recon")
+
+
+def _versao(caminho):
+    """Hash curto do arquivo em static/, para o endereço mudar quando o arquivo
+    muda (o Chrome guarda o favicon pelo endereço)."""
+    try:
+        with open(os.path.join(BASE_DIR, "static", caminho), "rb") as f:
+            return hashlib.sha1(f.read()).hexdigest()[:10]
+    except OSError:
+        return ""
+
+
+app.jinja_env.globals["versao"] = _versao
 
 
 @app.route("/favicon.ico")
